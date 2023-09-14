@@ -1,10 +1,10 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/presentation/camera/imagetaken_screen.dart';
+import 'package:waste_management/presentation/chat/chat_support.dart';
 import 'package:waste_management/presentation/home/profile.dart';
+import 'package:waste_management/presentation/waste%20segragation/guideline.dart';
 import 'package:waste_management/presentation/wastecollection/collection_listview.dart';
 
 class HomePage extends StatelessWidget {
@@ -150,54 +150,84 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        height: size.height * .19,
-                        width: size.width * .43,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [Color(0xff44ADA8), Color(0xffB3E6B5)],
-                                stops: [0.1, 0.9],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter),
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(60),
-                                bottomRight: Radius.circular(6),
-                                topLeft: Radius.circular(15),
-                                topRight: Radius.circular(6))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'asset/images/chat.png',
-                              fit: BoxFit.cover,
-                              width: 40,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return ChatSupport();
+                            },
+                          ));
+                        },
+                        child: Container(
+                          height: size.height * .19,
+                          width: size.width * .43,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xff44ADA8),
+                                    Color(0xffB3E6B5)
+                                  ],
+                                  stops: [
+                                    0.1,
+                                    0.9
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter),
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(60),
+                                  bottomRight: Radius.circular(6),
+                                  topLeft: Radius.circular(15),
+                                  topRight: Radius.circular(6))),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'asset/images/chat.png',
+                                fit: BoxFit.cover,
+                                width: 40,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        height: size.height * .19,
-                        width: size.width * .43,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [Color(0xff44ADA8), Color(0xffB3E6B5)],
-                                stops: [0.1, 0.9],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter),
-                            borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(60),
-                                bottomLeft: Radius.circular(6),
-                                topLeft: Radius.circular(6),
-                                topRight: Radius.circular(15))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'asset/images/guideline.png',
-                              fit: BoxFit.cover,
-                              width: 35,
-                            ),
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return WasteSegragationGuideline();
+                            },
+                          ));
+                        },
+                        child: Container(
+                          height: size.height * .19,
+                          width: size.width * .43,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    Color(0xff44ADA8),
+                                    Color(0xffB3E6B5)
+                                  ],
+                                  stops: [
+                                    0.1,
+                                    0.9
+                                  ],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter),
+                              borderRadius: BorderRadius.only(
+                                  bottomRight: Radius.circular(60),
+                                  bottomLeft: Radius.circular(6),
+                                  topLeft: Radius.circular(6),
+                                  topRight: Radius.circular(15))),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'asset/images/guideline.png',
+                                fit: BoxFit.cover,
+                                width: 35,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -214,7 +244,7 @@ class HomePage extends StatelessWidget {
   void _showCameraAlertDialog(BuildContext context) {
     showDialog(
         context: context,
-        builder: (context) {
+        builder: (ctx) {
           return AlertDialog(
             title: Text("Take a Photo"),
             content: Text("Do you want to use the camera to take a photo?"),
@@ -231,7 +261,7 @@ class HomePage extends StatelessWidget {
                   // You can add camera code or navigate to a camera screen
                   // For example, Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen()));
                   await takeCamera();
-                  Navigator.of(context).push(MaterialPageRoute(
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) {
                       return ImageTakenScreen();
                     },

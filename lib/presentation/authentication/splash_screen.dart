@@ -11,16 +11,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
-     Future.delayed(Duration(seconds: 3), () {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginSignup()), 
+        MaterialPageRoute(builder: (context) => LoginSignup()),
       );
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,9 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 "Waste Management",
                 style: GoogleFonts.codystar(
-                    fontSize: 40,
-                    color: white,
-                    fontWeight: FontWeight.w600),
+                    fontSize: 40, color: white, fontWeight: FontWeight.w600),
                 textAlign: TextAlign.center,
               )
             ],

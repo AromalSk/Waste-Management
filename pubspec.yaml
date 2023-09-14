@@ -32,7 +32,9 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^5.1.0
+  grouped_list: ^5.1.2
   image_picker: ^1.0.4
+  intl: ^0.18.1
   lottie: ^2.6.0
   path_provider: ^2.1.1
 

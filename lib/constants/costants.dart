@@ -6,9 +6,21 @@ const thirdColor = Color(0xffF3FEF0);
 const white = Color(0xFFFFFFFF);
 const grey = Color(0xff8D8D8E);
 const primaryfont = GoogleFonts.poppins;
-const sizedBox10 = SizedBox(height: 10,);
-const sizedBox30 = SizedBox(height: 30,);
-const sizedBox50 = SizedBox(height: 50,);
-const sizedBoxW10 = SizedBox(width: 10,);
-
-
+const sizedBox10 = SizedBox(
+  height: 10,
+);
+const sizedBox30 = SizedBox(
+  height: 30,
+);
+const sizedBox50 = SizedBox(
+  height: 50,
+);
+const sizedBoxW10 = SizedBox(
+  width: 10,
+);
+const sizedBoxW30 = SizedBox(
+  width: 30,
+);
+const sizedBoxW50 = SizedBox(
+  width: 50,
+);

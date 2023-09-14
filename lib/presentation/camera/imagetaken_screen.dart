@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/presentation/camera/request_success_screen.dart';
 import 'package:waste_management/presentation/home/widgets/backbutton.dart';
 
 class ImageTakenScreen extends StatelessWidget {
@@ -42,7 +43,13 @@ class ImageTakenScreen extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * .06,
                   width: MediaQuery.of(context).size.width * .8,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return RequestSuccessScreen();
+                        },
+                      ));
+                    },
                     style: ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(white)),
                     child: Row(
