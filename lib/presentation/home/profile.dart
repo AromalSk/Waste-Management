@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/presentation/authentication/widgets/textformfield.dart';
-import 'package:waste_management/presentation/home/homepage.dart';
+
 
 class Profile extends StatelessWidget {
   const Profile({super.key});

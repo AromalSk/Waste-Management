@@ -1,10 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/infrastucture/authentication/google_signin.dart';
 import 'package:waste_management/presentation/camera/imagetaken_screen.dart';
 import 'package:waste_management/presentation/chat/chat_support.dart';
 import 'package:waste_management/presentation/home/profile.dart';
-import 'package:waste_management/presentation/waste%20segragation/guideline.dart';
 import 'package:waste_management/presentation/wastecollection/collection_listview.dart';
 
 class HomePage extends StatelessWidget {
@@ -12,88 +14,122 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: BoxDecoration(color: Color(0xffEBEBEB)),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) {
-                            return Profile();
-                          },
-                        ));
-                      },
-                      child: CircleAvatar(
-                        radius: 40,
-                        backgroundColor: primaryColor,
-                        child: Image.asset(
-                          'asset/images/women.png',
-                          fit: BoxFit.contain,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Container(
+            height: size.height,
+            width: size.width,
+            decoration: const BoxDecoration(color: Color(0xffEBEBEB)),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return const Profile();
+                            },
+                          ));
+                        },
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundColor: primaryColor,
+                          child: Image.asset(
+                            'asset/images/women.png',
+                            fit: BoxFit.contain,
+                          ),
                         ),
+                      )
+                    ],
+                  ),
+                  Text(user.email!),
+                  const SizedBox(
+                    height: 80,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return const CollectionListView();
+                        },
+                      ));
+                    },
+                    child: Container(
+                      height: size.height * .15,
+                      width: size.width * .9,
+                      decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [Color(0xff44ADA8), Color(0xffB3E6B5)],
+                              stops: [0.1, 0.9],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40),
+                              topRight: Radius.circular(40),
+                              bottomLeft: Radius.circular(16),
+                              bottomRight: Radius.circular(16))),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'asset/images/collection-weekly.png',
+                            fit: BoxFit.cover,
+                            width: 35,
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 80,
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return CollectionListView();
-                      },
-                    ));
-                  },
-                  child: Container(
-                    height: size.height * .15,
-                    width: size.width * .9,
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Color(0xff44ADA8), Color(0xffB3E6B5)],
-                            stops: [0.1, 0.9],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(40),
-                            topRight: Radius.circular(40),
-                            bottomLeft: Radius.circular(16),
-                            bottomRight: Radius.circular(16))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'asset/images/collection-weekly.png',
-                          fit: BoxFit.cover,
-                          width: 35,
-                        ),
-                      ],
                     ),
                   ),
-                ),
-                sizedBox10,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          _showCameraAlertDialog(context);
-                        },
-                        child: Container(
+                  sizedBox10,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            _showCameraAlertDialog(context);
+                          },
+                          child: Container(
+                            height: size.height * .19,
+                            width: size.width * .43,
+                            decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff44ADA8),
+                                      Color(0xffB3E6B5)
+                                    ],
+                                    stops: [
+                                      0.1,
+                                      0.9
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'asset/images/camera-logo.png',
+                                  fit: BoxFit.cover,
+                                  width: 35,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Container(
                           height: size.height * .19,
                           width: size.width * .43,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               gradient: LinearGradient(
                                   colors: [
                                     Color(0xff44ADA8),
@@ -111,129 +147,111 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset(
-                                'asset/images/camera-logo.png',
+                                'asset/images/bin.png',
                                 fit: BoxFit.cover,
                                 width: 35,
                               ),
                             ],
                           ),
                         ),
-                      ),
-                      Container(
-                        height: size.height * .19,
-                        width: size.width * .43,
-                        decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [Color(0xff44ADA8), Color(0xffB3E6B5)],
-                                stops: [0.1, 0.9],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'asset/images/bin.png',
-                              fit: BoxFit.cover,
-                              width: 35,
+                      ],
+                    ),
+                  ),
+                  sizedBox10,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return ChatSupport();
+                              },
+                            ));
+                          },
+                          child: Container(
+                            height: size.height * .19,
+                            width: size.width * .43,
+                            decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff44ADA8),
+                                      Color(0xffB3E6B5)
+                                    ],
+                                    stops: [
+                                      0.1,
+                                      0.9
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(60),
+                                    bottomRight: Radius.circular(6),
+                                    topLeft: Radius.circular(15),
+                                    topRight: Radius.circular(6))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'asset/images/chat.png',
+                                  fit: BoxFit.cover,
+                                  width: 40,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                sizedBox10,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) {
-                              return ChatSupport();
-                            },
-                          ));
-                        },
-                        child: Container(
-                          height: size.height * .19,
-                          width: size.width * .43,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xff44ADA8),
-                                    Color(0xffB3E6B5)
-                                  ],
-                                  stops: [
-                                    0.1,
-                                    0.9
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter),
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(60),
-                                  bottomRight: Radius.circular(6),
-                                  topLeft: Radius.circular(15),
-                                  topRight: Radius.circular(6))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'asset/images/chat.png',
-                                fit: BoxFit.cover,
-                                width: 40,
-                              ),
-                            ],
                           ),
                         ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) {
-                              return WasteSegragationGuideline();
-                            },
-                          ));
-                        },
-                        child: Container(
-                          height: size.height * .19,
-                          width: size.width * .43,
-                          decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xff44ADA8),
-                                    Color(0xffB3E6B5)
-                                  ],
-                                  stops: [
-                                    0.1,
-                                    0.9
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter),
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(60),
-                                  bottomLeft: Radius.circular(6),
-                                  topLeft: Radius.circular(6),
-                                  topRight: Radius.circular(15))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'asset/images/guideline.png',
-                                fit: BoxFit.cover,
-                                width: 35,
-                              ),
-                            ],
+                        GestureDetector(
+                          onTap: () {
+                            final provider = Provider.of<GoogleSignInFlutter>(
+                                context,
+                                listen: false);
+                            provider.logout();
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //   builder: (context) {
+                            //     return const WasteSegragationGuideline();
+                            //   },
+                            // ));
+                          },
+                          child: Container(
+                            height: size.height * .19,
+                            width: size.width * .43,
+                            decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff44ADA8),
+                                      Color(0xffB3E6B5)
+                                    ],
+                                    stops: [
+                                      0.1,
+                                      0.9
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter),
+                                borderRadius: BorderRadius.only(
+                                    bottomRight: Radius.circular(60),
+                                    bottomLeft: Radius.circular(6),
+                                    topLeft: Radius.circular(6),
+                                    topRight: Radius.circular(15))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'asset/images/guideline.png',
+                                  fit: BoxFit.cover,
+                                  width: 35,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -246,14 +264,15 @@ class HomePage extends StatelessWidget {
         context: context,
         builder: (ctx) {
           return AlertDialog(
-            title: Text("Take a Photo"),
-            content: Text("Do you want to use the camera to take a photo?"),
+            title: const Text("Take a Photo"),
+            content:
+                const Text("Do you want to use the camera to take a photo?"),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close the AlertDialog
                 },
-                child: Text("Cancel"),
+                child: const Text("Cancel"),
               ),
               TextButton(
                 onPressed: () async {
@@ -263,11 +282,11 @@ class HomePage extends StatelessWidget {
                   await takeCamera();
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) {
-                      return ImageTakenScreen();
+                      return const ImageTakenScreen();
                     },
                   ));
                 },
-                child: Text("OK"),
+                child: const Text("OK"),
               ),
             ],
           );

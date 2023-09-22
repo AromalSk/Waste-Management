@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/presentation/authentication/login_screen.dart';
 import 'package:waste_management/presentation/authentication/login_signup_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(Duration(seconds: 3), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginSignup()),
+        MaterialPageRoute(builder: (context) => Dummy()),
       );
     });
   }

@@ -4,14 +4,37 @@ import 'package:waste_management/constants/costants.dart';
 class TextFormFieldCustomMade extends StatelessWidget {
   final IconData prefixIcon;
   final String hintText;
-  const TextFormFieldCustomMade(
-      {super.key, required this.prefixIcon, required this.hintText});
+  final TextEditingController controller;
+  final bool isEmailField;
+  final bool password;
+  final String? Function(String?)? customValidator;
+
+  const TextFormFieldCustomMade({
+    super.key,
+    required this.prefixIcon,
+    required this.hintText,
+    required this.controller,
+    this.isEmailField = false,
+    required this.password,
+    this.customValidator,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 70,
       child: TextFormField(
+        obscureText: password ? true : false,
+        validator: (value) {
+          if (customValidator != null) {
+            final customError = customValidator!(value);
+            if (customError != null) {
+              return customError; // Return the custom validation error.
+            }
+          }
+          return null;
+        },
+        controller: controller,
         style: primaryfont(
           color: white,
         ),
