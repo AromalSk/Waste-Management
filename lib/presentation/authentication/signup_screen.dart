@@ -4,6 +4,7 @@ import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/infrastucture/authentication/signup.dart';
 import 'package:waste_management/infrastucture/authentication/validator.dart';
 import 'package:waste_management/presentation/authentication/details_screen.dart';
+import 'package:waste_management/presentation/authentication/login_signup_screen.dart';
 import 'package:waste_management/presentation/authentication/widgets/textformfield.dart';
 import 'package:waste_management/presentation/home/homepage.dart';
 

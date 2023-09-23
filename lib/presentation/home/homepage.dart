@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,6 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
+
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -50,6 +53,7 @@ class HomePage extends StatelessWidget {
                     ],
                   ),
                   Text(user.email!),
+                  Text(user.displayName ?? "dhkfjshjkl"),
                   const SizedBox(
                     height: 80,
                   ),
@@ -205,6 +209,7 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
+                            log("hello");
                             final provider = Provider.of<GoogleSignInFlutter>(
                                 context,
                                 listen: false);

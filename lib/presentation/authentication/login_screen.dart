@@ -42,7 +42,7 @@ class LoginScreen extends StatelessWidget {
       if (FirebaseAuth.instance.currentUser != null) {
         // Navigate to HomePage if the user is logged in
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => Dummy()),
+          MaterialPageRoute(builder: (context) => LoginSignup()),
         );
       }
     }
@@ -127,24 +127,6 @@ class LoginScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class Dummy extends StatelessWidget {
-  const Dummy({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return HomePage();
-        } else {
-          return LoginSignup();
-        }
-      },
     );
   }
 }

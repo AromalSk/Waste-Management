@@ -32,10 +32,12 @@ class GoogleSignInFlutter extends ChangeNotifier {
     notifyListeners();
   }
 
-  
-Future logout ()async{
-  await googleSignIn.disconnect();
-  FirebaseAuth.instance.signOut();
+  Future logout() async {
+    try {
+      FirebaseAuth.instance.signOut();
+      await googleSignIn.disconnect();
+    } catch (e) {
+      log(e.toString());
+    }
+  }
 }
-}
-
