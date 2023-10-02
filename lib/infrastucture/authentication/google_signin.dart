@@ -1,10 +1,9 @@
 import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class GoogleSignInFlutter extends ChangeNotifier {
+
   final googleSignIn = GoogleSignIn();
 
   GoogleSignInAccount? _user;
@@ -29,7 +28,7 @@ class GoogleSignInFlutter extends ChangeNotifier {
       log("Authentication error: $e");
     }
     log("login 4");
-    notifyListeners();
+    
   }
 
   Future logout() async {
@@ -40,4 +39,4 @@ class GoogleSignInFlutter extends ChangeNotifier {
       log(e.toString());
     }
   }
-}
+
