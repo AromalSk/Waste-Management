@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/costants.dart';
+List<String> savedLocation = ["789 Coconut Avenue \nKochi, Kerala \n682001"];
 
 class SavedLocation extends StatelessWidget {
-  const SavedLocation({super.key});
+  SavedLocation({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +34,14 @@ class SavedLocation extends StatelessWidget {
                       color: Color(0xffEDFBE2),
                       borderRadius: BorderRadius.circular(20)),
                   child: ListTile(
-                    title: Center(
-                        child: Text(
-                            "789 Coconut Avenue \nKochi, Kerala \n682001")),
+                    title: Center(child: Text(savedLocation[index])),
                   ),
                 ),
               );
             },
-            itemCount: 10,
+            itemCount: savedLocation.length,
           ),
         ));
   }
 }
+

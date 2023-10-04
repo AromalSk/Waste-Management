@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/presentation/screens/wastecollection/payment_screen.dart';
-import 'package:waste_management/presentation/screens/wastecollection/widgets/list_view.dart';
+import 'package:waste_management/presentation/screens/wastecollection/location_choosing_screen.dart';
+import 'package:waste_management/presentation/widgets/list_view.dart';
 import 'package:waste_management/presentation/widgets/backbutton.dart';
 
 class CollectionListView extends StatelessWidget {
@@ -40,7 +40,9 @@ class CollectionListView extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return PaymentScreen();
+                              return LocationChoosingScreen(
+                                title: "On demand collection",
+                              );
                             },
                           ));
                         },
@@ -50,34 +52,111 @@ class CollectionListView extends StatelessWidget {
                         ),
                       );
                     } else if (index == 1) {
-                      return ListViewCustomMade(
-                          heading: "Monday : Day 1",
-                          subtitle: "General Waste Collection");
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "General Waste Collection",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Monday : Day 1",
+                            subtitle: "General Waste Collection"),
+                      );
                     } else if (index == 2) {
-                      return ListViewCustomMade(
-                          heading: "Tuesday : Day 2",
-                          subtitle: "Paper and Cardboard Recycling");
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "Paper and Cardboard Recycling",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Tuesday : Day 2",
+                            subtitle: "Paper and Cardboard Recycling"),
+                      );
                     } else if (index == 3) {
-                      return ListViewCustomMade(
-                          heading: "Wednesday : Day 3",
-                          subtitle: "Plastic Recycling");
+                      return InkWell(
+                         onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "Plastic Recycling",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Wednesday : Day 3",
+                            subtitle: "Plastic Recycling"),
+                      );
                     } else if (index == 4) {
-                      return ListViewCustomMade(
-                          heading: "Thursday : Day 4",
-                          subtitle: "Glass and Metal Recycling");
+                      return InkWell(
+                         onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "Glass and Metal Recycling",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Thursday : Day 4",
+                            subtitle: "Glass and Metal Recycling"),
+                      );
                     } else if (index == 5) {
-                      return ListViewCustomMade(
-                          heading: "Friday : Day 5",
-                          subtitle: "E-waste and Hazardous waste");
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "E-waste and Hazardous waste",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Friday : Day 5",
+                            subtitle: "E-waste and Hazardous waste"),
+                      );
                     } else if (index == 6) {
-                      return ListViewCustomMade(
-                          heading: "Saturday : Day 6",
-                          subtitle: "Textiles and Clothing Collection");
+                      return InkWell(
+                         onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "Textiles and Clothing Collection",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Saturday : Day 6",
+                            subtitle: "Textiles and Clothing Collection"),
+                      );
                     } else if (index == 7) {
-                      return ListViewCustomMade(
-                          heading: "Sunday : Day 7",
-                          subtitle:
-                              "Medication Light bulbs and Special Collections");
+                      return InkWell(
+                         onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return LocationChoosingScreen(
+                                title: "Medication Light bulbs and Special Collections",
+                              );
+                            },
+                          ));
+                        },
+                        child: ListViewCustomMade(
+                            heading: "Sunday : Day 7",
+                            subtitle:
+                                "Medication Light bulbs and Special Collections"),
+                      );
                     }
                   },
                 ),
