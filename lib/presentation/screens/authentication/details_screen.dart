@@ -1,15 +1,34 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/domain/entities/user.dart';
+import 'package:waste_management/presentation/bloc/gender/gender_bloc.dart';
+import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/login_signup_screen.dart';
-import 'package:waste_management/presentation/widgets/textformfield.dart';
 
+class DetailScreen extends StatefulWidget {
+  DetailScreen(
+      {super.key, this.email, this.phonenumber, this.username, this.password});
+  String? email;
+  String? phonenumber;
+  String? username;
+  String? password;
 
-class DetailScreen extends StatelessWidget {
-  DetailScreen({super.key});
+  @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
 
+class _DetailScreenState extends State<DetailScreen> {
+  DateTime _dateTime = DateTime.now();
+  String? bithdate;
   final _formkey = GlobalKey<FormState>();
-  final dateOfBirthController = TextEditingController();
+
+  TextEditingController dateOfBirthController = TextEditingController();
+
+  final addressController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -19,151 +38,208 @@ class DetailScreen extends StatelessWidget {
         builder: (context, snapshot) {
           return Form(
             key: _formkey,
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('asset/images/login-signin.jpg'),
-                  fit: BoxFit.cover,
+            child: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('asset/images/login-signin.jpg'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStatePropertyAll(thirdColor)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      icon: Icon(
-                        Icons.arrow_back_outlined,
-                        color: grey,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStatePropertyAll(thirdColor)),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          Icons.arrow_back_outlined,
+                          color: grey,
+                        ),
                       ),
-                    ),
-                    sizedBox10,
-                    Text(
-                      "Provide \nDetails !",
-                      style: primaryfont(color: thirdColor, fontSize: 20),
-                    ),
-                    SizedBox(
-                      height: size.height * 0.1,
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Address cant be empty";
-                              } else {
-                                return null;
-                              }
-                            },
-                            maxLines: 5,
-                            style: primaryfont(
-                              color: white,
-                            ),
-                            decoration: InputDecoration(
-                                hintText: "Address",
-                                hintStyle: primaryfont(
-                                  fontWeight: FontWeight.w500,
-                                  color: white,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(20)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide.none,
-                                    borderRadius: BorderRadius.circular(20)),
-                                filled: true,
-                                fillColor: Colors.black.withOpacity(0.2),
-                                prefixIcon: Icon(
-                                  Icons.home,
-                                  color: white,
-                                ),
-                                prefixIconConstraints: BoxConstraints(
-                                  minWidth: 70,
-                                ),
-                                contentPadding:
-                                    EdgeInsets.only(top: 30, right: 30)),
-                          ),
-                        ),
-                        sizedBox10,
-                        GestureDetector(
-                          onTap: () {},
-                          child: TextFormFieldCustomMade(
-                            password: false,
-                            controller: dateOfBirthController,
-                            hintText: "Date of Birth",
-                            prefixIcon: Icons.calendar_month,
-                          ),
-                        ),
-                        sizedBox10,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Select your gender",
-                              style: primaryfont(
-                                  color: grey,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ],
-                        ),
-                        sizedBox10,
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Male",
-                                      style: primaryfont(color: grey),
-                                    )),
-                                sizedBoxW10,
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    child: Text(
-                                      "Female",
-                                      style: primaryfont(color: grey),
-                                    ))
-                              ],
-                            )
-                          ],
-                        ),
-                        sizedBox10,
-                        SizedBox(
-                            height: MediaQuery.of(context).size.height * .06,
-                            width: MediaQuery.of(context).size.width * .6,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (_formkey.currentState!.validate()) {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) {
-                                      return LoginSignup();
-                                    },
-                                  ));
+                      sizedBox10,
+                      Text(
+                        "Provide \nDetails !",
+                        style: primaryfont(color: thirdColor, fontSize: 20),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.1,
+                      ),
+                      Column(
+                        children: [
+                          SizedBox(
+                            height: 150,
+                            child: TextFormField(
+                              controller: addressController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Address cant be empty";
+                                } else {
+                                  return null;
                                 }
                               },
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStatePropertyAll(primaryColor)),
-                              child: Text(
-                                "Proceed",
-                                style: primaryfont(color: white, fontSize: 24),
+                              maxLines: 5,
+                              style: primaryfont(
+                                color: white,
                               ),
-                            )),
-                      ],
-                    ),
-                  ],
+                              decoration: InputDecoration(
+                                  hintText: "Address",
+                                  hintStyle: primaryfont(
+                                    fontWeight: FontWeight.w500,
+                                    color: white,
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                      borderRadius: BorderRadius.circular(20)),
+                                  filled: true,
+                                  fillColor: Colors.black.withOpacity(0.2),
+                                  prefixIcon: Icon(
+                                    Icons.home,
+                                    color: white,
+                                  ),
+                                  prefixIconConstraints: BoxConstraints(
+                                    minWidth: 70,
+                                  ),
+                                  contentPadding:
+                                      EdgeInsets.only(top: 30, right: 30)),
+                            ),
+                          ),
+                          sizedBox30,
+                          Row(
+                            children: [
+                              Expanded(
+                                child: TextFormField(
+                                  style: primaryfont(color: white),
+                                  controller: dateOfBirthController,
+                                  onTap: () {
+                                    _showDatePicker(context);
+                                  },
+                                  decoration: InputDecoration(
+                                      hintText: "Date of Birth",
+                                      hintStyle: primaryfont(
+                                        fontWeight: FontWeight.w500,
+                                        color: white,
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide.none,
+                                          borderRadius:
+                                              BorderRadius.circular(100)),
+                                      filled: true,
+                                      fillColor: Colors.black.withOpacity(0.3),
+                                      prefixIcon: Icon(
+                                        Icons.date_range,
+                                        color: white,
+                                      ),
+                                      prefixIconConstraints: BoxConstraints(
+                                        minWidth: 70,
+                                      ),
+                                      contentPadding: EdgeInsets.only()),
+                                ),
+                              ),
+                            ],
+                          ),
+                          sizedBox30,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Select your gender",
+                                style: primaryfont(
+                                    color: grey,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                          sizedBox10,
+                          Column(
+                            children: [
+                              BlocBuilder<GenderBloc, GenderState>(
+                                builder: (context, state) {
+                                  return Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      state.gender == "Male"
+                                                          ? forthColor
+                                                          : grey)),
+                                          onPressed: () {
+                                            context
+                                                .read<GenderBloc>()
+                                                .add(Male());
+                                          },
+                                          child: Text(
+                                            "Male",
+                                            style: primaryfont(color: white),
+                                          )),
+                                      sizedBoxW10,
+                                      ElevatedButton(
+                                          style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStatePropertyAll(
+                                                      state.gender == "Female"
+                                                          ? forthColor
+                                                          : grey)),
+                                          onPressed: () {
+                                            context
+                                                .read<GenderBloc>()
+                                                .add(Female());
+                                          },
+                                          child: Text(
+                                            "Female",
+                                            style: primaryfont(color: white),
+                                          ))
+                                    ],
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                          sizedBox10,
+                          BlocBuilder<GenderBloc, GenderState>(
+                            builder: (context, state) {
+                              return SizedBox(
+                                  height:
+                                      MediaQuery.of(context).size.height * .06,
+                                  width: MediaQuery.of(context).size.width * .6,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      handleSignup(context, state.gender);
+                                    },
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStatePropertyAll(
+                                                primaryColor)),
+                                    child: Text(
+                                      "Proceed",
+                                      style: primaryfont(
+                                          color: white, fontSize: 24),
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -171,5 +247,60 @@ class DetailScreen extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void handleSignup(BuildContext context, String gender) {
+    if (_formkey.currentState!.validate()) {
+      if (gender == "") {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please select your gender.')),
+        );
+        return;
+      }
+      print("2");
+      context
+          .read<SignupBloc>()
+          .add(SignupEvent(email: widget.email!, password: widget.password!));
+      print("3");
+      final details = FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid);
+      print('4');
+      final user = UserDetails(
+          userId: details.id,
+          dateTime: DateTime.now(),
+          email: widget.email,
+          phonenumber: widget.phonenumber,
+          userName: widget.username,
+          address: addressController.text,
+          birthdate: dateOfBirthController.text,
+          gender: gender);
+      details.set(user.toMap());
+      print("5");
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context) {
+          return LoginSignup();
+        },
+      ));
+    }
+  }
+
+  _showDatePicker(BuildContext context) {
+    showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1900),
+            lastDate: DateTime(2024))
+        .then((value) {
+      setState(() {
+        _dateTime = value!;
+        bithdate = _dateTime.day.toString() +
+            " - " +
+            _dateTime.month.toString() +
+            " - " +
+            _dateTime.year.toString();
+        dateOfBirthController.text = bithdate ?? "hello";
+      });
+    });
   }
 }

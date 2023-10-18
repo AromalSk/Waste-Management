@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const primaryColor = Color(0xff44ADA8);
+const secondaryColor = Color(0xffB2E6B5);
 const thirdColor = Color(0xffF3FEF0);
+const forthColor = Color(0xff547981);
 const white = Color(0xFFFFFFFF);
 const grey = Color(0xff8D8D8E);
 const primaryfont = GoogleFonts.poppins;

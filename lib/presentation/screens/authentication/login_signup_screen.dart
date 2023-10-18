@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart'; 
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/infrastucture/authentication/google_signin.dart';
 import 'package:waste_management/presentation/bloc/google_login/google_login_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/login_screen.dart';
 import 'package:waste_management/presentation/screens/authentication/signup_screen.dart';

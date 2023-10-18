@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:waste_management/presentation/bloc/full_bin_image/full_bin_image_bloc.dart';
+import 'package:waste_management/presentation/bloc/gender/gender_bloc.dart';
 import 'package:waste_management/presentation/bloc/google_login/google_login_bloc.dart';
 import 'package:waste_management/presentation/bloc/login/login_bloc.dart';
 import 'package:waste_management/presentation/bloc/logout/logout_bloc.dart';
@@ -26,6 +28,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => GoogleLoginBloc()),
         BlocProvider(create: (context) => LogoutBloc()),
+        BlocProvider(create: (context) => GenderBloc()),
+        BlocProvider(create: (context) => FullBinImageBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,21 +1,29 @@
 import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/presentation/screens/bin/bin_location_screen.dart';
 import 'package:waste_management/presentation/screens/camera/imagetaken_screen.dart';
 import 'package:waste_management/presentation/screens/chat/chat_support.dart';
 import 'package:waste_management/presentation/screens/home/profile.dart';
+import 'package:waste_management/presentation/screens/waste%20segragation/guideline.dart';
 import 'package:waste_management/presentation/screens/wastecollection/collection_listview.dart';
 
+// Color(0xffEBEBEB)
+class HomePage extends StatefulWidget {
+  HomePage({super.key});
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
-
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: SingleChildScrollView(
@@ -23,7 +31,7 @@ class HomePage extends StatelessWidget {
           child: Container(
             height: size.height,
             width: size.width,
-            decoration: const BoxDecoration(color: Color(0xffEBEBEB)),
+            decoration: const BoxDecoration(color: thirdColor),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -31,30 +39,53 @@ class HomePage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) {
-                              return const Profile();
+                      FutureBuilder(
+                        future: FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(user.uid)
+                            .get(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          var userData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          return InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: const Profile()));
                             },
-                          ));
+                            child: CircleAvatar(
+                                radius: 40,
+                                backgroundColor: primaryColor,
+                                child: userData['gender'] == "Female"
+                                    ? Image.asset(
+                                        width: 70,
+                                        'asset/images/women.png',
+                                        fit: BoxFit.contain,
+                                      )
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 4),
+                                        child: Image.asset(
+                                          width: 100,
+                                          'asset/images/man.png',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )),
+                          );
                         },
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundColor: primaryColor,
-                          child: Image.asset(
-                            'asset/images/women.png',
-                            fit: BoxFit.contain,
-                          ),
-                        ),
                       )
                     ],
                   ),
-                  Text(user.email!),
-                  Text(user.displayName ?? "dhkfjshjkl"),
                   const SizedBox(
                     height: 80,
                   ),
+                  Image.asset('asset/images/bin-handle-main.png', width: 100),
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -97,7 +128,12 @@ class HomePage extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            _showCameraAlertDialog(context);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return ImageTakenScreen();
+                              },
+                            ));
+                            // _showCameraAlertDialog(context);
                           },
                           child: Container(
                             height: size.height * .19,
@@ -128,32 +164,41 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          height: size.height * .19,
-                          width: size.width * .43,
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                  colors: [
-                                    Color(0xff44ADA8),
-                                    Color(0xffB3E6B5)
-                                  ],
-                                  stops: [
-                                    0.1,
-                                    0.9
-                                  ],
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter),
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'asset/images/bin.png',
-                                fit: BoxFit.cover,
-                                width: 35,
-                              ),
-                            ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return BinLocation();
+                              },
+                            ));
+                          },
+                          child: Container(
+                            height: size.height * .19,
+                            width: size.width * .43,
+                            decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xff44ADA8),
+                                      Color(0xffB3E6B5)
+                                    ],
+                                    stops: [
+                                      0.1,
+                                      0.9
+                                    ],
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10))),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'asset/images/bin.png',
+                                  fit: BoxFit.cover,
+                                  width: 35,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -207,13 +252,11 @@ class HomePage extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            log("hello");
-                           
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //   builder: (context) {
-                            //     return const WasteSegragationGuideline();
-                            //   },
-                            // ));
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return const WasteSegragationGuideline();
+                              },
+                            ));
                           },
                           child: Container(
                             height: size.height * .19,
@@ -270,31 +313,29 @@ class HomePage extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.of(context).pop(); // Close the AlertDialog
+                  Navigator.of(context).pop();
                 },
                 child: const Text("Cancel"),
               ),
               TextButton(
                 onPressed: () async {
-                  // TODO: Implement camera functionality here
-                  // You can add camera code or navigate to a camera screen
-                  // For example, Navigator.push(context, MaterialPageRoute(builder: (context) => CameraScreen()));
-                  await takeCamera();
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) {
-                      return const ImageTakenScreen();
-                    },
-                  ));
+                  try {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return ImageTakenScreen();
+                      },
+                    ));
+                  } catch (e) {
+                    log(e.toString());
+                    print(e.toString());
+                  }
+
+                  //  Navigator.of(context).pop();
                 },
                 child: const Text("OK"),
               ),
             ],
           );
         });
-  }
-
-  Future<void> takeCamera() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
   }
 }

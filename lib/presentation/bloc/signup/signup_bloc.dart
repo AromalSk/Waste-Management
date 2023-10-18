@@ -7,8 +7,8 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc() : super(SignupInitial()) {
-    on<SignupEvent>((event, emit) {
-      signUp(event.email, event.password);
+    on<SignupEvent>((event, emit) async {
+      await signUp(event.email, event.password);
       emit(SignupState());
     });
   }

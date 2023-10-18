@@ -1,0 +1,35 @@
+[33mcommit 5392992ab5a895167329eb3c1b538bb8864ab466[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Wed Oct 4 17:38:25 2023 +0530
+
+    Google maps current location done
+
+[33mcommit 1e2d60eba93a8af171041993c9a67caafcb5626e[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Mon Oct 2 16:25:01 2023 +0530
+
+    Bloc statemangaement integrated
+
+[33mcommit a6624eeb704408d7d1992d2bb43af8ce912580f5[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Sat Sep 23 16:48:58 2023 +0530
+
+    signin error resolved
+
+[33mcommit 933c88c3ee4f477529aed8fca569909af3bf4f7b[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Fri Sep 22 18:39:31 2023 +0530
+
+    Google Authentication Completed
+
+[33mcommit 5aceaf8c495c495dfd4d3475b3f7f8ce30004af4[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Thu Sep 14 13:37:51 2023 +0530
+
+    Chat Screen Completed
+
+[33mcommit ec06b12a6fb35f088869b9611a15b1aab8b2802d[m
+Author: Aromal sk <aromalskumar97148@gmail.com>
+Date:   Wed Sep 13 10:20:05 2023 +0530
+
+    UI half completed

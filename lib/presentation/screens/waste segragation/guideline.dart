@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/presentation/widgets/backbutton.dart';
 
@@ -29,6 +30,7 @@ class WasteSegragationGuideline extends StatelessWidget {
                   ],
                 ),
               ),
+              Lottie.asset("asset/lottie/animation_lnidfakg.json"),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

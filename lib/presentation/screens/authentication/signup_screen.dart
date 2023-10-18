@@ -1,15 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/infrastucture/authentication/signup.dart';
+import 'package:waste_management/domain/entities/user.dart';
 import 'package:waste_management/infrastucture/authentication/validator.dart';
-import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/details_screen.dart';
 import 'package:waste_management/presentation/widgets/textformfield.dart';
 
 class SignUpScreen extends StatefulWidget {
-  SignUpScreen({super.key});
+  const SignUpScreen({super.key});
 
   @override
   State<SignUpScreen> createState() => _SignUpScreenState();
@@ -26,6 +24,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final confirmPasswordController = TextEditingController();
 
+  UserDetails registration = UserDetails();
+
   bool submitted = false;
 
   final _formKey = GlobalKey<FormState>();
@@ -40,21 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return null;
   }
 
-  handleSignUp() async {
-    if (_formKey.currentState!.validate()) {
-      context.read<SignupBloc>().add(SignupEvent(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim()));
-      // await signUp(emailController.text.trim(), passwordController.text.trim());
-    }
-    if (FirebaseAuth.instance.currentUser != null) {
-      Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) {
-          return DummySignup();
-        },
-      ));
-    }
-  }
+  handleSignUp() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +130,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           width: size.width * .6,
                           child: ElevatedButton(
                             onPressed: () {
-                              handleSignUp();
+                              if (_formKey.currentState!.validate()) {
+                              
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) {
+                                    return DetailScreen(
+                                      email: emailController.text.trim(),
+                                      phonenumber:
+                                          phoneNumberController.text.trim(),
+                                      username: usernameController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    );
+                                  },
+                                ));
+                              }
                             },
                             style: ButtonStyle(
                                 backgroundColor:
@@ -167,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 
 class DummySignup extends StatelessWidget {
-  const DummySignup({super.key});
+  DummySignup({super.key});
 
   @override
   Widget build(BuildContext context) {

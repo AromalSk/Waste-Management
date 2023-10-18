@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/infrastucture/authentication/login.dart';
 import 'package:waste_management/presentation/bloc/login/login_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/login_signup_screen.dart';
 import 'package:waste_management/presentation/widgets/textformfield.dart';
@@ -39,11 +38,8 @@ class LoginScreen extends StatelessWidget {
       context.read<LoginBloc>().add(LoginEvent(
           email: emailController.text.trim(),
           password: passwordController.text.trim()));
-      // await logIn(emailController.text.trim(), passwordController.text.trim());
-
-      // Check if the user is logged in after signing in
+          
       if (FirebaseAuth.instance.currentUser != null) {
-        // Navigate to HomePage if the user is logged in
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LoginSignup()),
         );
