@@ -23,7 +23,7 @@ class LoginSignup extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return HomePage();
+            return const HomePage();
           } else if (snapshot.hasError) {
             return const Center(
               child: Text("Something Went Wrong"),
@@ -55,7 +55,7 @@ class LoginSignup extends StatelessWidget {
                             },
                           ));
                         },
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(primaryColor)),
                         child: Text(
@@ -76,7 +76,7 @@ class LoginSignup extends StatelessWidget {
                             },
                           ));
                         },
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(white)),
                         child: Text(
                           "Sign Up",
@@ -93,11 +93,11 @@ class LoginSignup extends StatelessWidget {
                           context.read<GoogleLoginBloc>().add(GoogleLoginEvent());
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return LoginSignup();
+                              return const LoginSignup();
                             },
                           ));
                         },
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(white)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

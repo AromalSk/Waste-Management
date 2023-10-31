@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_management/presentation/bloc/full_bin_image/full_bin_image_bloc.dart';
 import 'package:waste_management/presentation/bloc/gender/gender_bloc.dart';
 import 'package:waste_management/presentation/bloc/google_login/google_login_bloc.dart';
+import 'package:waste_management/presentation/bloc/image_gender/image_gender_bloc.dart';
 import 'package:waste_management/presentation/bloc/login/login_bloc.dart';
 import 'package:waste_management/presentation/bloc/logout/logout_bloc.dart';
 import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => GoogleLoginBloc()),
         BlocProvider(create: (context) => LogoutBloc()),
         BlocProvider(create: (context) => GenderBloc()),
-        BlocProvider(create: (context) => FullBinImageBloc())
+        BlocProvider(create: (context) => FullBinImageBloc()),
+        BlocProvider(create: (context) => ImageGenderBloc())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         onGenerateRoute: _appRoute.onGenerateRoute,
-        home: SplashScreen(),
+        home: const SplashScreen(),
       ),
     );
   }

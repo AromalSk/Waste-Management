@@ -13,7 +13,7 @@ class RequestListScreen extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffE6F9DC),
+          backgroundColor: const Color(0xffE6F9DC),
           centerTitle: true,
           title: Text(
             "Request Queue",
@@ -53,7 +53,7 @@ class RequestListScreen extends StatelessWidget {
                         height: null,
                         width: null,
                         decoration: BoxDecoration(
-                            color: Color(0xffEDFBE2),
+                            color: const Color(0xffEDFBE2),
                             borderRadius: BorderRadius.circular(20)),
                         child: ListTile(
                             leading: Container(
@@ -73,7 +73,7 @@ class RequestListScreen extends StatelessWidget {
                               style: primaryfont(fontSize: 10),
                             ),
                             trailing: snapshot.data![index].status == true
-                                ? CircleAvatar(
+                                ? const CircleAvatar(
                                     backgroundColor: Colors.transparent,
                                     child: Icon(
                                       Icons.highlight_remove_rounded,
@@ -88,7 +88,7 @@ class RequestListScreen extends StatelessWidget {
                   itemCount: snapshot.data!.length,
                 );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
             },
           ),

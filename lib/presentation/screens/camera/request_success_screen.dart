@@ -14,10 +14,10 @@ class _RequestSuccessScreenState extends State<RequestSuccessScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 5), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => RequestListScreen()),
+        MaterialPageRoute(builder: (context) => const RequestListScreen()),
       );
     });
   }

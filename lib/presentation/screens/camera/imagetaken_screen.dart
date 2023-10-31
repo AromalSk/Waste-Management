@@ -8,8 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/domain/entities/full_bin_id.dart';
 import 'package:waste_management/domain/entities/full_bin_images.dart';
+import 'package:waste_management/infrastucture/homepage/function.dart';
 import 'package:waste_management/presentation/bloc/full_bin_image/full_bin_image_bloc.dart';
+import 'package:waste_management/presentation/bloc/image_gender/image_gender_bloc.dart';
 import 'package:waste_management/presentation/screens/camera/map_location_choosing.dart';
 import 'package:waste_management/presentation/screens/camera/request_list_screen.dart';
 import 'package:waste_management/presentation/screens/camera/request_success_screen.dart';
@@ -18,10 +21,14 @@ import 'package:waste_management/presentation/widgets/backbutton.dart';
 // ignore: must_be_immutable
 class ImageTakenScreen extends StatelessWidget {
   String? location;
+
+  String? gender;
   ImageTakenScreen({super.key, this.location});
 
   // File? imageFile;
   UploadTask? uploadTask;
+
+  final user = FirebaseAuth.instance.currentUser!;
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +76,7 @@ class ImageTakenScreen extends StatelessWidget {
                               fit: BoxFit.fill,
                             ),
                           )
-                        : Card(
+                        : const Card(
                             elevation: 10,
                             color: primaryColor,
                             child: Icon(
@@ -90,7 +97,7 @@ class ImageTakenScreen extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return PictureLocation();
+                              return const PictureLocation();
                             },
                           ));
                         },
@@ -115,7 +122,7 @@ class ImageTakenScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) {
-                            return PictureLocation();
+                            return const PictureLocation();
                           },
                         ));
                       },
@@ -142,7 +149,7 @@ class ImageTakenScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) {
-                    return RequestListScreen();
+                    return const RequestListScreen();
                   },
                 ));
               },
@@ -154,30 +161,46 @@ class ImageTakenScreen extends StatelessWidget {
               )),
           BlocBuilder<FullBinImageBloc, FullBinImageState>(
             builder: (context, state) {
-              return FloatingActionButton(
-                backgroundColor: primaryColor,
-                onPressed: () async {
-                  if (state.mainImage != null && location != null) {
-                    String imageLink = await imageSendtoDB(state.mainImage!);
-                    print("6");
-                    detailsSentToFireStore(
-                        imagePath: imageLink, location: location!);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("image sent successful")));
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) {
-                        return RequestSuccessScreen();
-                      },
-                    ));
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text("There is no image or location")));
-                  }
+              return BlocBuilder<ImageGenderBloc, ImageGenderState>(
+                builder: (context, imagegender) {
+                  gender = imagegender.genderUser;
+                  return FloatingActionButton(
+                    backgroundColor: primaryColor,
+                    onPressed: () async {
+                      if (state.mainImage != null && location != null) {
+                        await getFirebaseUserData().then((data) {
+                          if (data != null) {
+                            context
+                                .read<ImageGenderBloc>()
+                                .add(ImageGenderEvent(gender: data['gender']));
+                          }
+                        });
+                        String imageLink =
+                            await imageSendtoDB(state.mainImage!);
+                        print("6");
+                        detailsSentToFireStore(
+                            imagePath: imageLink, location: location!);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text("image sent successful")));
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) {
+                            return const RequestSuccessScreen();
+                          },
+                        ));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content:
+                                    Text("There is no image or location")));
+                      }
+                    },
+                    child: const Icon(
+                      Icons.send,
+                      color: white,
+                    ),
+                  );
                 },
-                child: Icon(
-                  Icons.send,
-                  color: white,
-                ),
               );
             },
           )
@@ -215,18 +238,42 @@ class ImageTakenScreen extends StatelessWidget {
 
   void detailsSentToFireStore(
       {required String imagePath, required String location}) {
+    FirebaseFirestore.instance
+        .collection('full-bin-images')
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .set(FullBinId(
+                status: false,
+                userId: FirebaseAuth.instance.currentUser!.uid,
+                gender: gender!,
+                userLocation: location)
+            .toMap());
+
     final imagedetails = FirebaseFirestore.instance
         .collection('full-bin-images')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection('image-list')
         .doc();
     final bin = FullBinImages(
+        imageListId: imagedetails.id,
+        gender: gender!,
         imagePath: imagePath,
         userLocation: location,
         status: false,
-        dateTime: DateTime.now(),
-        userId: imagedetails.id);
+        dateTime:  DateTime.now(),
+        userId: FirebaseAuth.instance.currentUser!.uid);
     imagedetails.set(bin.toMap());
+
+    final binAdmin =
+        FirebaseFirestore.instance.collection('full-bin-images-admin').doc();
+    binAdmin.set(FullBinImages(
+            imagePath: imagePath,
+            userLocation: location,
+            status: false,
+            dateTime:  DateTime.now(),
+            imageListId: imagedetails.id,
+            gender: gender!,
+            userId: FirebaseAuth.instance.currentUser!.uid)
+        .toMap());
     print("5");
   }
 }

@@ -7,11 +7,11 @@ class BackButtonCustomMade extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(thirdColor)),
+      style: const ButtonStyle(backgroundColor: MaterialStatePropertyAll(thirdColor)),
       onPressed: () {
         Navigator.of(context).pop();
       },
-      icon: Icon(
+      icon: const Icon(
         Icons.arrow_back_outlined,
         color: grey,
       ),

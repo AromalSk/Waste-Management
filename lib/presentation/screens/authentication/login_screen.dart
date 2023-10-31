@@ -38,10 +38,10 @@ class LoginScreen extends StatelessWidget {
       context.read<LoginBloc>().add(LoginEvent(
           email: emailController.text.trim(),
           password: passwordController.text.trim()));
-          
+
       if (FirebaseAuth.instance.currentUser != null) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => LoginSignup()),
+          MaterialPageRoute(builder: (context) => const LoginSignup()),
         );
       }
     }
@@ -54,7 +54,7 @@ class LoginScreen extends StatelessWidget {
       body: Form(
         key: _formKey,
         child: Container(
-          // height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -62,66 +62,68 @@ class LoginScreen extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStatePropertyAll(thirdColor)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Icon(
-                    Icons.arrow_back_outlined,
-                    color: grey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 40, left: 40, right: 40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  IconButton(
+                    style: const ButtonStyle(
+                        backgroundColor: MaterialStatePropertyAll(thirdColor)),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      color: grey,
+                    ),
                   ),
-                ),
-                sizedBox10,
-                Text(
-                  "Welcome \nBack !",
-                  style: primaryfont(color: thirdColor, fontSize: 20),
-                ),
-                SizedBox(
-                  height: size.height * 0.2,
-                ),
-                Column(
-                  children: [
-                    TextFormFieldCustomMade(
-                      password: false,
-                      controller: emailController,
-                      hintText: "Email",
-                      prefixIcon: Icons.email,
-                      customValidator: validateEmail,
-                    ),
-                    sizedBox10,
-                    TextFormFieldCustomMade(
-                      password: true,
-                      controller: passwordController,
-                      prefixIcon: Icons.password_rounded,
-                      hintText: "Password",
-                      customValidator: validatePassword,
-                    ),
-                    sizedBox10,
-                    SizedBox(
-                        height: MediaQuery.of(context).size.height * .06,
-                        width: MediaQuery.of(context).size.width * .6,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            _handleSignIn(context);
-                          },
-                          style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStatePropertyAll(primaryColor)),
-                          child: Text(
-                            "Login",
-                            style: primaryfont(color: white, fontSize: 24),
-                          ),
-                        )),
-                  ],
-                )
-              ],
+                  sizedBox10,
+                  Text(
+                    "Welcome \nBack !",
+                    style: primaryfont(color: thirdColor, fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.2,
+                  ),
+                  Column(
+                    children: [
+                      TextFormFieldCustomMade(
+                        password: false,
+                        controller: emailController,
+                        hintText: "Email",
+                        prefixIcon: Icons.email,
+                        customValidator: validateEmail,
+                      ),
+                      sizedBox10,
+                      TextFormFieldCustomMade(
+                        password: true,
+                        controller: passwordController,
+                        prefixIcon: Icons.password_rounded,
+                        hintText: "Password",
+                        customValidator: validatePassword,
+                      ),
+                      sizedBox10,
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * .06,
+                          width: MediaQuery.of(context).size.width * .6,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _handleSignIn(context);
+                            },
+                            style: const ButtonStyle(
+                                backgroundColor:
+                                    MaterialStatePropertyAll(primaryColor)),
+                            child: Text(
+                              "Login",
+                              style: primaryfont(color: white, fontSize: 24),
+                            ),
+                          )),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

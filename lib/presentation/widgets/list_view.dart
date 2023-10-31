@@ -16,7 +16,7 @@ class ListViewCustomMade extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color(0xffE3F8D7),
+          color: const Color(0xffE3F8D7),
         ),
         child: ListTile(
           title: Text(
@@ -25,7 +25,7 @@ class ListViewCustomMade extends StatelessWidget {
           ),
           subtitle: Text(
             subtitle,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           enabled: true,
           textColor: Colors.black,

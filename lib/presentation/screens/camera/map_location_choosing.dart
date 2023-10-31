@@ -75,7 +75,8 @@ class PictureLocationState extends State<PictureLocation> {
       List<Placemark> placemarks = await placemarkFromCoordinates(
           userLocation!.latitude, userLocation!.longitude);
       setState(() {
-        streetAddress = "${placemarks.reversed.last.name}\n${placemarks.reversed.last.thoroughfare}\n${placemarks.reversed.last.subLocality}\n${placemarks.reversed.last.locality}\n${placemarks.reversed.last.administrativeArea}\n${placemarks.reversed.last.country}\n${placemarks.reversed.last.postalCode}";
+        streetAddress =
+            "${placemarks.reversed.last.name}\n${placemarks.reversed.last.thoroughfare}\n${placemarks.reversed.last.subLocality}\n${placemarks.reversed.last.locality}\n${placemarks.reversed.last.administrativeArea}\n${placemarks.reversed.last.country}\n${placemarks.reversed.last.postalCode}";
         print(streetAddress.toString() + "hoi");
       });
     } else {
@@ -131,7 +132,7 @@ class PictureLocationState extends State<PictureLocation> {
                     return Center(
                       child: Container(
                         width: double.infinity,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(30),
                                 topRight: Radius.circular(30))),
@@ -153,7 +154,8 @@ class PictureLocationState extends State<PictureLocation> {
                             sizedBox30,
                             ElevatedButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
+                                  Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
                                     builder: (context) {
                                       return ImageTakenScreen(
                                         location: streetAddress,
@@ -161,7 +163,7 @@ class PictureLocationState extends State<PictureLocation> {
                                     },
                                   ));
                                 },
-                                child: Text("Send location"))
+                                child: const Text("Send location"))
                           ],
                         ),
                       ),
@@ -191,7 +193,7 @@ class PictureLocationState extends State<PictureLocation> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton.extended(
-            label: Text("current location"),
+            label: const Text("current location"),
             onPressed: () async {
               loadData();
             },
@@ -204,7 +206,7 @@ class PictureLocationState extends State<PictureLocation> {
   void latAndLongPassing(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) {
-        return RequestSuccessScreen();
+        return const RequestSuccessScreen();
       },
     ));
   }

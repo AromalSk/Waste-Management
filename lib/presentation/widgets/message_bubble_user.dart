@@ -17,7 +17,7 @@ class MessageBubbleUser extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxWidth: size.width * .6),
             width: null,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.zero,
                 topLeft: Radius.circular(10),

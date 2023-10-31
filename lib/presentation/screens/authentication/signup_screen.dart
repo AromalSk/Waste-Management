@@ -64,12 +64,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                         backgroundColor: MaterialStatePropertyAll(thirdColor)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_outlined,
                       color: grey,
                     ),
@@ -145,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ));
                               }
                             },
-                            style: ButtonStyle(
+                            style: const ButtonStyle(
                                 backgroundColor:
                                     MaterialStatePropertyAll(primaryColor)),
                             child: Text(
@@ -176,7 +176,7 @@ class DummySignup extends StatelessWidget {
         if (snapshot.hasData) {
           return DetailScreen();
         } else {
-          return SignUpScreen();
+          return const SignUpScreen();
         }
       },
     );

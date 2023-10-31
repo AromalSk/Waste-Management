@@ -9,9 +9,11 @@ import 'package:waste_management/presentation/widgets/backbutton.dart';
 
 class LocationChoosingScreen extends StatelessWidget {
   String title;
+  int index;
   LocationChoosingScreen({
     Key? key,
     required this.title,
+    required this.index
   }) : super(key: key);
 
   @override
@@ -20,7 +22,7 @@ class LocationChoosingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color(0xff53B4A9),
@@ -31,7 +33,7 @@ class LocationChoosingScreen extends StatelessWidget {
             ),
           ),
         ),
-        leading: Padding(
+        leading: const Padding(
           padding: EdgeInsets.all(8.0), // Adjust the padding as needed
           child: BackButtonCustomMade(), // Replace with your custom back button
         ),
@@ -42,7 +44,7 @@ class LocationChoosingScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color(0xff53B4A9),
@@ -75,7 +77,7 @@ class LocationChoosingScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return CurrentLocation(title: title,);
+                              return CurrentLocation(title: title,index: index,amount: "50",);
                             },
                           ));
                         },
@@ -84,7 +86,7 @@ class LocationChoosingScreen extends StatelessWidget {
                           width: size.width * .35,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              color: Color(0xffEDFBE2)),
+                              color: const Color(0xffEDFBE2)),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -112,7 +114,7 @@ class LocationChoosingScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return SavedLocation();
+                              return const SavedLocation();
                             },
                           ));
                         },
@@ -121,7 +123,7 @@ class LocationChoosingScreen extends StatelessWidget {
                           width: size.width * .35,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Color(0xffEDFBE2),
+                            color: const Color(0xffEDFBE2),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
@@ -151,7 +153,7 @@ class LocationChoosingScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * .6,
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(primaryColor)),
                         child: Text(
@@ -165,7 +167,7 @@ class LocationChoosingScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) {
-                          return PaymentSuccessful();
+                          return const PaymentSuccessful();
                         },
                       ));
                     },
@@ -179,7 +181,7 @@ class LocationChoosingScreen extends StatelessWidget {
                         width: 70,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
-                            gradient: LinearGradient(
+                            gradient: const LinearGradient(
                                 colors: [Color(0xffB1E5B4), Color(0xff48AFA8)],
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter)),

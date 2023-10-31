@@ -21,8 +21,8 @@ class WasteSegragationGuideline extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8),
+              const Padding(
+                padding: EdgeInsets.all(8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

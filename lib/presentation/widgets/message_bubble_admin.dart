@@ -17,7 +17,7 @@ class MessageBubbleAdmin extends StatelessWidget {
           Container(
             constraints: BoxConstraints(maxWidth: size.width * .6),
             width: null,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(10),
                 topLeft: Radius.zero,
@@ -31,7 +31,7 @@ class MessageBubbleAdmin extends StatelessWidget {
               child: Text(
                 message,
                 style: primaryfont(
-                    color: Color(0xff44ADA8), fontWeight: FontWeight.w500),
+                    color: const Color(0xff44ADA8), fontWeight: FontWeight.w500),
               ),
             ),
           ),

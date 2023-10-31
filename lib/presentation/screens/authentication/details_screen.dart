@@ -54,13 +54,13 @@ class _DetailScreenState extends State<DetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       IconButton(
-                        style: ButtonStyle(
+                        style: const ButtonStyle(
                             backgroundColor:
                                 MaterialStatePropertyAll(thirdColor)),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        icon: Icon(
+                        icon: const Icon(
                           Icons.arrow_back_outlined,
                           color: grey,
                         ),
@@ -104,15 +104,15 @@ class _DetailScreenState extends State<DetailScreen> {
                                       borderRadius: BorderRadius.circular(20)),
                                   filled: true,
                                   fillColor: Colors.black.withOpacity(0.2),
-                                  prefixIcon: Icon(
+                                  prefixIcon: const Icon(
                                     Icons.home,
                                     color: white,
                                   ),
-                                  prefixIconConstraints: BoxConstraints(
+                                  prefixIconConstraints: const BoxConstraints(
                                     minWidth: 70,
                                   ),
                                   contentPadding:
-                                      EdgeInsets.only(top: 30, right: 30)),
+                                      const EdgeInsets.only(top: 30, right: 30)),
                             ),
                           ),
                           sizedBox30,
@@ -141,14 +141,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                               BorderRadius.circular(100)),
                                       filled: true,
                                       fillColor: Colors.black.withOpacity(0.3),
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.date_range,
                                         color: white,
                                       ),
-                                      prefixIconConstraints: BoxConstraints(
+                                      prefixIconConstraints: const BoxConstraints(
                                         minWidth: 70,
                                       ),
-                                      contentPadding: EdgeInsets.only()),
+                                      contentPadding: const EdgeInsets.only()),
                                 ),
                               ),
                             ],
@@ -224,7 +224,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     onPressed: () {
                                       handleSignup(context, state.gender);
                                     },
-                                    style: ButtonStyle(
+                                    style: const ButtonStyle(
                                         backgroundColor:
                                             MaterialStatePropertyAll(
                                                 primaryColor)),
@@ -253,7 +253,7 @@ class _DetailScreenState extends State<DetailScreen> {
     if (_formkey.currentState!.validate()) {
       if (gender == "") {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please select your gender.')),
+          const SnackBar(content: Text('Please select your gender.')),
         );
         return;
       }
@@ -279,7 +279,7 @@ class _DetailScreenState extends State<DetailScreen> {
       print("5");
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) {
-          return LoginSignup();
+          return const LoginSignup();
         },
       ));
     }

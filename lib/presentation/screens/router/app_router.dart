@@ -6,11 +6,11 @@ class AppRoute {
   Route onGenerateRoute(RouteSettings routeSettings){
     switch (routeSettings.name) {
       case '/':
-        return MaterialPageRoute(builder: (context) => HomePage(),);
+        return MaterialPageRoute(builder: (context) => const HomePage(),);
        case 'splash':
-        return MaterialPageRoute(builder: (context) => SplashScreen(),);
+        return MaterialPageRoute(builder: (context) => const SplashScreen(),);
       default:
-      return  MaterialPageRoute(builder: (context) => HomePage(),);
+      return  MaterialPageRoute(builder: (context) => const HomePage(),);
     }
   }
 }

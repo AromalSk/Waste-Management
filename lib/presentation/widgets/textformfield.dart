@@ -56,10 +56,10 @@ class TextFormFieldCustomMade extends StatelessWidget {
               prefixIcon,
               color: white,
             ),
-            prefixIconConstraints: BoxConstraints(
+            prefixIconConstraints: const BoxConstraints(
               minWidth: 70,
             ),
-            contentPadding: EdgeInsets.only()),
+            contentPadding: const EdgeInsets.only()),
       ),
     );
   }

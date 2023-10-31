@@ -13,7 +13,7 @@ import 'package:waste_management/presentation/screens/wastecollection/collection
 
 // Color(0xffEBEBEB)
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -47,12 +47,13 @@ class _HomePageState extends State<HomePage> {
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return Center(
+                            return const Center(
                               child: CircularProgressIndicator(),
                             );
                           }
                           var userData =
                               snapshot.data!.data() as Map<String, dynamic>;
+
                           return InkWell(
                             onTap: () {
                               Navigator.of(context).push(PageTransition(
@@ -130,7 +131,9 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
-                                return ImageTakenScreen();
+                                return ImageTakenScreen(
+                                 
+                                );
                               },
                             ));
                             // _showCameraAlertDialog(context);
@@ -168,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) {
-                                return BinLocation();
+                                return const BinLocation();
                               },
                             ));
                           },

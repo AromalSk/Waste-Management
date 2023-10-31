@@ -1,18 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
-
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/domain/repositories/weekly_collection.dart';
 import 'package:waste_management/presentation/screens/wastecollection/pay_success_screen.dart';
 import 'package:waste_management/presentation/widgets/backbutton.dart';
 
 class PaymentScreen extends StatelessWidget {
   String streetAddress;
   String title;
-  PaymentScreen({
-    Key? key,
-    required this.streetAddress,
-    required this.title,
-  }) : super(key: key);
+  int index;
+  String latitude;
+  String longitude;
+  String amount;
+
+  PaymentScreen(
+      {Key? key,
+      required this.streetAddress,
+      required this.title,
+      required this.index,
+      required this.latitude,
+      required this.longitude,
+      required this.amount})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +38,8 @@ class PaymentScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 20),
+              const Padding(
+                padding: EdgeInsets.only(left: 20),
                 child: Row(
                   children: [
                     BackButtonCustomMade(),
@@ -95,7 +104,7 @@ class PaymentScreen extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * .6,
                   child: ElevatedButton(
                     onPressed: () {},
-                    style: ButtonStyle(
+                    style: const ButtonStyle(
                         backgroundColor:
                             MaterialStatePropertyAll(primaryColor)),
                     child: Text(
@@ -105,11 +114,13 @@ class PaymentScreen extends StatelessWidget {
                   )),
               sizedBox30,
               InkWell(
-                onLongPress: () {},
+                // onLongPress: () {},
                 onTap: () {
+                  setCollectionDetailsToFirebase(
+                      index, streetAddress, latitude, longitude, amount, title);
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) {
-                      return PaymentSuccessful();
+                      return const PaymentSuccessful();
                     },
                   ));
                 },
@@ -123,7 +134,7 @@ class PaymentScreen extends StatelessWidget {
                     width: 70,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
-                        gradient: LinearGradient(
+                        gradient: const LinearGradient(
                             colors: [Color(0xffB1E5B4), Color(0xff48AFA8)],
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter)),
@@ -146,3 +157,5 @@ class PaymentScreen extends StatelessWidget {
     );
   }
 }
+
+

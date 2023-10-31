@@ -14,10 +14,10 @@ class _PaymentSuccessfulState extends State<PaymentSuccessful> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 1500), () {
+    Future.delayed(const Duration(milliseconds: 1500), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomePage()),
+        MaterialPageRoute(builder: (context) => const HomePage()),
       );
     });
   }

@@ -8,8 +8,11 @@ import 'package:waste_management/presentation/screens/wastecollection/payment_sc
 import 'package:waste_management/presentation/screens/wastecollection/saved_location.dart';
 
 class CurrentLocation extends StatefulWidget {
-  CurrentLocation({super.key, required this.title});
+  CurrentLocation({super.key, required this.title,required this.index,required this.amount});
   String title;
+  int index;
+  String amount;
+ 
   @override
   State<CurrentLocation> createState() => CurrentLocationState();
 }
@@ -18,12 +21,15 @@ class CurrentLocationState extends State<CurrentLocation> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
+       String? latitude;
+  String? longitude;
+
   String? streetAddress = '';
 
   Position? userLocation;
 
   List<Marker> _markers = [
-    Marker(
+    const Marker(
       markerId: MarkerId('_kGooglePlex'),
       infoWindow: InfoWindow(title: 'Suhails House'),
       icon: BitmapDescriptor.defaultMarker,
@@ -36,11 +42,13 @@ class CurrentLocationState extends State<CurrentLocation> {
       print("my current location");
       userLocation = value;
       print(value.latitude.toString() + " " + value.longitude.toString());
+      latitude = value.latitude.toString();
+      longitude = value.longitude.toString();
 
       _markers.add(Marker(
-          markerId: MarkerId('2'),
+          markerId: const MarkerId('2'),
           position: LatLng(value.latitude, value.longitude),
-          infoWindow: InfoWindow(title: 'My current Location')));
+          infoWindow: const InfoWindow(title: 'My current Location')));
 
       CameraPosition cameraPosition = CameraPosition(
         zoom: 14,
@@ -88,7 +96,7 @@ class CurrentLocationState extends State<CurrentLocation> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Maps",
         ),
         centerTitle: true,
@@ -162,13 +170,18 @@ class CurrentLocationState extends State<CurrentLocation> {
                           return PaymentScreen(
                             streetAddress: streetAddress.toString(),
                             title: widget.title,
+                            index: widget. index,
+                            latitude: latitude!,
+                            longitude: longitude!,
+                            amount: widget.amount,
+
                           );
                         },
                       ));
                     }
                   },
-                  icon: Padding(
-                    padding: const EdgeInsets.only(left: 3),
+                  icon: const Padding(
+                    padding: EdgeInsets.only(left: 3),
                     child: Icon(
                       Icons.send,
                       color: white,

@@ -3,13 +3,13 @@ import 'package:waste_management/constants/costants.dart';
 List<String> savedLocation = ["789 Coconut Avenue \nKochi, Kerala \n682001"];
 
 class SavedLocation extends StatelessWidget {
-  SavedLocation({super.key});
+  const SavedLocation({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xffE6F9DC),
+          backgroundColor: const Color(0xffE6F9DC),
           centerTitle: true,
           title: Text(
             "Saved Location",
@@ -31,7 +31,7 @@ class SavedLocation extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      color: Color(0xffEDFBE2),
+                      color: const Color(0xffEDFBE2),
                       borderRadius: BorderRadius.circular(20)),
                   child: ListTile(
                     title: Center(child: Text(savedLocation[index])),
