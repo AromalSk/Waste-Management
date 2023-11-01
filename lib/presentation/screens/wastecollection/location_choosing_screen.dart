@@ -10,11 +10,8 @@ import 'package:waste_management/presentation/widgets/backbutton.dart';
 class LocationChoosingScreen extends StatelessWidget {
   String title;
   int index;
-  LocationChoosingScreen({
-    Key? key,
-    required this.title,
-    required this.index
-  }) : super(key: key);
+  LocationChoosingScreen({Key? key, required this.title, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +74,11 @@ class LocationChoosingScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return CurrentLocation(title: title,index: index,amount: "50",);
+                              return CurrentLocation(
+                                title: title,
+                                index: index,
+                                amount: "50",
+                              );
                             },
                           ));
                         },
@@ -162,41 +163,41 @@ class LocationChoosingScreen extends StatelessWidget {
                         ),
                       )),
                   sizedBox30,
-                  InkWell(
-                    onLongPress: () {},
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) {
-                          return const PaymentSuccessful();
-                        },
-                      ));
-                    },
-                    splashFactory: InkRipple.splashFactory,
-                    splashColor: Colors.blueAccent,
-                    child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Container(
-                        height: 70,
-                        width: 70,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            gradient: const LinearGradient(
-                                colors: [Color(0xffB1E5B4), Color(0xff48AFA8)],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter)),
-                        child: Center(
-                          child: Text(
-                            "Pay",
-                            style: primaryfont(
-                                fontSize: 24,
-                                color: white,
-                                fontWeight: FontWeight.w500),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // InkWell(
+                  //   onLongPress: () {},
+                  //   onTap: () {
+                  //     Navigator.of(context).push(MaterialPageRoute(
+                  //       builder: (context) {
+                  //         return const PaymentSuccessful();
+                  //       },
+                  //     ));
+                  //   },
+                  //   splashFactory: InkRipple.splashFactory,
+                  //   splashColor: Colors.blueAccent,
+                  //   child: Card(
+                  //     shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(50)),
+                  //     child: Container(
+                  //       height: 70,
+                  //       width: 70,
+                  //       decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(50),
+                  //           gradient: const LinearGradient(
+                  //               colors: [Color(0xffB1E5B4), Color(0xff48AFA8)],
+                  //               begin: Alignment.topCenter,
+                  //               end: Alignment.bottomCenter)),
+                  //       child: Center(
+                  //         child: Text(
+                  //           "Pay",
+                  //           style: primaryfont(
+                  //               fontSize: 24,
+                  //               color: white,
+                  //               fontWeight: FontWeight.w500),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               )
             ],

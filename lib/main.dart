@@ -11,6 +11,7 @@ import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/splash_screen.dart';
 import 'package:waste_management/presentation/screens/router/app_router.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

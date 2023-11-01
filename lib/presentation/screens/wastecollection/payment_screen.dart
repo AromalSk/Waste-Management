@@ -4,8 +4,9 @@ import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/repositories/weekly_collection.dart';
 import 'package:waste_management/presentation/screens/wastecollection/pay_success_screen.dart';
 import 'package:waste_management/presentation/widgets/backbutton.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class PaymentScreen extends StatelessWidget {
+class PaymentScreen extends StatefulWidget {
   String streetAddress;
   String title;
   int index;
@@ -22,6 +23,40 @@ class PaymentScreen extends StatelessWidget {
       required this.longitude,
       required this.amount})
       : super(key: key);
+
+  @override
+  State<PaymentScreen> createState() => _PaymentScreenState();
+}
+
+class _PaymentScreenState extends State<PaymentScreen> {
+  var _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print("payment done");
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) {
+        return const PaymentSuccessful();
+      },
+    ));
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print('payment error');
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +102,7 @@ class PaymentScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          title,
+                          widget.title,
                           style: primaryfont(color: white, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
@@ -89,7 +124,7 @@ class PaymentScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          streetAddress,
+                          widget.streetAddress,
                           style: primaryfont(color: white, fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
@@ -114,15 +149,31 @@ class PaymentScreen extends StatelessWidget {
                   )),
               sizedBox30,
               InkWell(
-                // onLongPress: () {},
                 onTap: () {
+                  var options = {
+                    'key': 'rzp_test_ESaJeRtOUFPAcN',
+                    'amount': 5000,
+                    'name': 'Waste Management',
+                    'description': 'Demo',
+                    'timeout': 300, // in seconds
+                    'prefill': {
+                      'contact': '9898989898',
+                      'email': 'aromalskumar97148@gmail.com'
+                    }
+                  };
+                  _razorpay.open(options);
                   setCollectionDetailsToFirebase(
-                      index, streetAddress, latitude, longitude, amount, title);
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return const PaymentSuccessful();
-                    },
-                  ));
+                      widget.index,
+                      widget.streetAddress,
+                      widget.latitude,
+                      widget.longitude,
+                      widget.amount,
+                      widget.title);
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //   builder: (context) {
+                  //     return const PaymentSuccessful();
+                  //   },
+                  // ));
                 },
                 splashFactory: InkRipple.splashFactory,
                 splashColor: Colors.blueAccent,
@@ -156,6 +207,10 @@ class PaymentScreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
 }
-
-
