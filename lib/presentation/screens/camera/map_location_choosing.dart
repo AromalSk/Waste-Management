@@ -10,6 +10,104 @@ import 'package:waste_management/presentation/screens/bin/bin_location_screen.da
 import 'package:waste_management/presentation/screens/camera/imagetaken_screen.dart';
 import 'package:waste_management/presentation/screens/camera/request_success_screen.dart';
 
+List<Map<String, dynamic>> data = [
+  {
+    'id': '0',
+    'position': const LatLng(10.1617, 76.2154),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '1',
+    'position': const LatLng(10.1615, 76.2162),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '2',
+    'position': const LatLng(10.1657, 76.2135),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '3',
+    'position': const LatLng(10.1673, 76.2122),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '4',
+    'position': const LatLng(10.1711, 76.2102),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '5',
+    'position': const LatLng(10.1785, 76.2109),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '6',
+    'position': const LatLng(10.2139, 76.1981),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '7',
+    'position': const LatLng(10.1505, 76.2182),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '8',
+    'position': const LatLng(10.1485, 76.2249),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '9',
+    'position': const LatLng(10.1503, 76.2315),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '10',
+    'position': const LatLng(10.1412, 76.2038),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '11',
+    'position': const LatLng(10.1391, 76.1943),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '12',
+    'position': const LatLng(10.1395, 76.1792),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '13',
+    'position': const LatLng(10.1768, 76.1653),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '14',
+    'position': const LatLng(10.1660, 76.2023),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '15',
+    'position': const LatLng(10.1897, 76.1882),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '16',
+    'position': const LatLng(10.1747, 76.2325),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '17',
+    'position': const LatLng(10.1766, 76.2424),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+  {
+    'id': '18',
+    'position': const LatLng(10.9478, 76.0292),
+    'assetPath': 'asset/images/bin-image-medium.png'
+  },
+];
+
 class PictureLocation extends StatefulWidget {
   const PictureLocation({super.key});
 
