@@ -207,6 +207,13 @@ class PictureLocationState extends State<PictureLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Full Bin Image Location',
+          style: primaryfont(color: primaryColor),
+        ),
+        centerTitle: true,
+      ),
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
@@ -291,7 +298,11 @@ class PictureLocationState extends State<PictureLocation> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FloatingActionButton.extended(
-            label: const Text("current location"),
+            backgroundColor: primaryColor,
+            label: Text(
+              "current location",
+              style: primaryfont(color: white),
+            ),
             onPressed: () async {
               loadData();
             },

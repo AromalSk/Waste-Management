@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/bin_location.dart';
 
 class BinLocation extends StatefulWidget {
@@ -13,9 +14,6 @@ class BinLocation extends StatefulWidget {
 }
 
 class BinLocationState extends State<BinLocation> {
-
-
-  
   List<BinLocationModel>? bins;
 
   @override
@@ -119,6 +117,13 @@ class BinLocationState extends State<BinLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Bin Location',
+          style: primaryfont(color: primaryColor),
+        ),
+        centerTitle: true,
+      ),
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
@@ -145,7 +150,11 @@ class BinLocationState extends State<BinLocation> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 100),
         child: FloatingActionButton.extended(
-          label: Text("current location"),
+          backgroundColor: primaryColor,
+          label: Text(
+            "current location",
+            style: primaryfont(color: white),
+          ),
           onPressed: () async {
             loadData();
           },
