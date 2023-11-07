@@ -3,18 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:waste_management/constants/costants.dart';
-import 'package:waste_management/domain/entities/user.dart';
+import 'package:waste_management/infrastucture/authentication/validator.dart';
 import 'package:waste_management/presentation/bloc/gender/gender_bloc.dart';
-import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/login_signup_screen.dart';
+import 'package:waste_management/presentation/widgets/textformfield.dart';
 
 class DetailScreen extends StatefulWidget {
-  DetailScreen(
-      {super.key, this.email, this.phonenumber, this.username, this.password});
-  String? email;
-  String? phonenumber;
-  String? username;
-  String? password;
+  const DetailScreen({super.key});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -26,6 +21,9 @@ class _DetailScreenState extends State<DetailScreen> {
   final _formkey = GlobalKey<FormState>();
 
   TextEditingController dateOfBirthController = TextEditingController();
+
+  final usernameController = TextEditingController();
+  final phoneNumberController = TextEditingController();
 
   final addressController = TextEditingController();
 
@@ -40,8 +38,8 @@ class _DetailScreenState extends State<DetailScreen> {
             key: _formkey,
             child: SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: size.height,
+                width: size.width,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('asset/images/login-signin.jpg'),
@@ -71,10 +69,24 @@ class _DetailScreenState extends State<DetailScreen> {
                         style: primaryfont(color: thirdColor, fontSize: 20),
                       ),
                       SizedBox(
-                        height: size.height * 0.1,
+                        height: size.height * 0.04,
                       ),
                       Column(
                         children: [
+                          TextFormFieldCustomMade(
+                            password: false,
+                            controller: usernameController,
+                            prefixIcon: Icons.person,
+                            hintText: "Username",
+                            customValidator: validateUsername,
+                          ),
+                          TextFormFieldCustomMade(
+                            password: false,
+                            controller: phoneNumberController,
+                            prefixIcon: Icons.phone,
+                            hintText: "Phone Number",
+                            customValidator: validatePhoneNumber,
+                          ),
                           SizedBox(
                             height: 150,
                             child: TextFormField(
@@ -111,8 +123,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                   prefixIconConstraints: const BoxConstraints(
                                     minWidth: 70,
                                   ),
-                                  contentPadding:
-                                      const EdgeInsets.only(top: 30, right: 30)),
+                                  contentPadding: const EdgeInsets.only(
+                                      top: 30, right: 30)),
                             ),
                           ),
                           sizedBox30,
@@ -145,7 +157,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                         Icons.date_range,
                                         color: white,
                                       ),
-                                      prefixIconConstraints: const BoxConstraints(
+                                      prefixIconConstraints:
+                                          const BoxConstraints(
                                         minWidth: 70,
                                       ),
                                       contentPadding: const EdgeInsets.only()),
@@ -160,7 +173,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               Text(
                                 "Select your gender",
                                 style: primaryfont(
-                                    color: grey,
+                                    color: white,
                                     fontSize: 18,
                                     fontWeight: FontWeight.w500),
                               ),
@@ -249,7 +262,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
-  void handleSignup(BuildContext context, String gender) {
+  void handleSignup(BuildContext context, String gender) async {
     if (_formkey.currentState!.validate()) {
       if (gender == "") {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -258,24 +271,22 @@ class _DetailScreenState extends State<DetailScreen> {
         return;
       }
       print("2");
-      context
-          .read<SignupBloc>()
-          .add(SignupEvent(email: widget.email!, password: widget.password!));
+
       print("3");
       final details = FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser!.uid);
       print('4');
-      final user = UserDetails(
-          userId: details.id,
-          dateTime: DateTime.now(),
-          email: widget.email,
-          phonenumber: widget.phonenumber,
-          userName: widget.username,
-          address: addressController.text,
-          birthdate: dateOfBirthController.text,
-          gender: gender);
-      details.set(user.toMap());
+      final user = {
+        'userId': details.id,
+        'dateTime': DateTime.now(),
+        'phonenumber': phoneNumberController.text.trim(),
+        'userName': usernameController.text.trim(),
+        'address': addressController.text,
+        'birthdate': dateOfBirthController.text,
+        'gender': gender
+      };
+      await details.update(user);
       print("5");
       Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) {

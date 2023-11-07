@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart'; 
+import 'package:google_fonts/google_fonts.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/presentation/bloc/google_login/google_login_bloc.dart';
+import 'package:waste_management/presentation/screens/authentication/details_screen.dart';
 import 'package:waste_management/presentation/screens/authentication/login_screen.dart';
 import 'package:waste_management/presentation/screens/authentication/signup_screen.dart';
 import 'package:waste_management/presentation/screens/home/homepage.dart';
@@ -72,7 +73,7 @@ class LoginSignup extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) {
-                              return DummySignup();
+                              return HomePage();
                             },
                           ));
                         },
@@ -89,13 +90,11 @@ class LoginSignup extends StatelessWidget {
                       width: size.width * .6,
                       child: ElevatedButton(
                         onPressed: () {
-                          // AuthService().signInWithGoogle();
-                          context.read<GoogleLoginBloc>().add(GoogleLoginEvent());
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) {
-                              return const LoginSignup();
-                            },
-                          ));
+                          context
+                              .read<GoogleLoginBloc>()
+                              .add(GoogleLoginEvent(context: context));
+
+                         
                         },
                         style: const ButtonStyle(
                             backgroundColor: MaterialStatePropertyAll(white)),

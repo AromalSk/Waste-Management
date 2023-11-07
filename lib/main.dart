@@ -8,9 +8,9 @@ import 'package:waste_management/presentation/bloc/image_gender/image_gender_blo
 import 'package:waste_management/presentation/bloc/login/login_bloc.dart';
 import 'package:waste_management/presentation/bloc/logout/logout_bloc.dart';
 import 'package:waste_management/presentation/bloc/signup/signup_bloc.dart';
+import 'package:waste_management/presentation/bloc/splash_screen/splashscreen_bloc.dart';
 import 'package:waste_management/presentation/screens/authentication/splash_screen.dart';
 import 'package:waste_management/presentation/screens/router/app_router.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => SplashscreenBloc()),
         BlocProvider(create: (context) => SignupBloc()),
         BlocProvider(create: (context) => LoginBloc()),
         BlocProvider(create: (context) => GoogleLoginBloc()),

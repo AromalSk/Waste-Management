@@ -169,11 +169,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       widget.longitude,
                       widget.amount,
                       widget.title);
-                  // Navigator.of(context).push(MaterialPageRoute(
-                  //   builder: (context) {
-                  //     return const PaymentSuccessful();
-                  //   },
-                  // ));
                 },
                 splashFactory: InkRipple.splashFactory,
                 splashColor: Colors.blueAccent,
