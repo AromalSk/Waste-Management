@@ -233,7 +233,7 @@ class Profile extends StatelessWidget {
                                 width: 50,
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(200),
-                                    color: const Color(0xff44ADA8)),
+                                    color: danger),
                                 child: const Icon(
                                   Icons.logout,
                                   color: white,

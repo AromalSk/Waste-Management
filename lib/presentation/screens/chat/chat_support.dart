@@ -98,9 +98,13 @@ class ChatSupport extends StatelessWidget {
                                 },
                                 itemBuilder: (context, element) {
                                   return element.isSentByMe
-                                      ? MessageBubbleUser(message: element.text)
+                                      ? MessageBubbleUser(
+                                          message: element.text,
+                                          date: element.dateTime,
+                                        )
                                       : MessageBubbleAdmin(
-                                          message: element.text);
+                                          message: element.text,
+                                          date: element.dateTime);
                                 },
                               )
                             : Center(

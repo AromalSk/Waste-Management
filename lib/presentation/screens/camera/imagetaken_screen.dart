@@ -16,6 +16,7 @@ import 'package:waste_management/presentation/bloc/image_gender/image_gender_blo
 import 'package:waste_management/presentation/screens/camera/map_location_choosing.dart';
 import 'package:waste_management/presentation/screens/camera/request_list_screen.dart';
 import 'package:waste_management/presentation/screens/camera/request_success_screen.dart';
+import 'package:waste_management/presentation/screens/home/homepage.dart';
 import 'package:waste_management/presentation/widgets/backbutton.dart';
 
 // ignore: must_be_immutable
@@ -45,12 +46,27 @@ class ImageTakenScreen extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    BackButtonCustomMade(),
+                    IconButton(
+                      style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStatePropertyAll(thirdColor)),
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) {
+                            return HomePage();
+                          },
+                        ));
+                      },
+                      icon: const Icon(
+                        Icons.arrow_back_outlined,
+                        color: grey,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -259,7 +275,7 @@ class ImageTakenScreen extends StatelessWidget {
         imagePath: imagePath,
         userLocation: location,
         status: false,
-        dateTime:  DateTime.now(),
+        dateTime: DateTime.now(),
         userId: FirebaseAuth.instance.currentUser!.uid);
     imagedetails.set(bin.toMap());
 
@@ -269,7 +285,7 @@ class ImageTakenScreen extends StatelessWidget {
             imagePath: imagePath,
             userLocation: location,
             status: false,
-            dateTime:  DateTime.now(),
+            dateTime: DateTime.now(),
             imageListId: imagedetails.id,
             gender: gender!,
             userId: FirebaseAuth.instance.currentUser!.uid)

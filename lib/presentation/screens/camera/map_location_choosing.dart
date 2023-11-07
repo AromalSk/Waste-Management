@@ -6,107 +6,11 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:waste_management/constants/costants.dart';
+import 'package:waste_management/domain/entities/bin_location.dart';
 import 'package:waste_management/presentation/screens/bin/bin_location_screen.dart';
 import 'package:waste_management/presentation/screens/camera/imagetaken_screen.dart';
 import 'package:waste_management/presentation/screens/camera/request_success_screen.dart';
 
-List<Map<String, dynamic>> data = [
-  {
-    'id': '0',
-    'position': const LatLng(10.1617, 76.2154),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '1',
-    'position': const LatLng(10.1615, 76.2162),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '2',
-    'position': const LatLng(10.1657, 76.2135),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '3',
-    'position': const LatLng(10.1673, 76.2122),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '4',
-    'position': const LatLng(10.1711, 76.2102),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '5',
-    'position': const LatLng(10.1785, 76.2109),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '6',
-    'position': const LatLng(10.2139, 76.1981),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '7',
-    'position': const LatLng(10.1505, 76.2182),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '8',
-    'position': const LatLng(10.1485, 76.2249),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '9',
-    'position': const LatLng(10.1503, 76.2315),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '10',
-    'position': const LatLng(10.1412, 76.2038),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '11',
-    'position': const LatLng(10.1391, 76.1943),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '12',
-    'position': const LatLng(10.1395, 76.1792),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '13',
-    'position': const LatLng(10.1768, 76.1653),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '14',
-    'position': const LatLng(10.1660, 76.2023),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '15',
-    'position': const LatLng(10.1897, 76.1882),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '16',
-    'position': const LatLng(10.1747, 76.2325),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '17',
-    'position': const LatLng(10.1766, 76.2424),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-  {
-    'id': '18',
-    'position': const LatLng(10.9478, 76.0292),
-    'assetPath': 'asset/images/bin-image-medium.png'
-  },
-];
 
 class PictureLocation extends StatefulWidget {
   const PictureLocation({super.key});
@@ -116,9 +20,16 @@ class PictureLocation extends StatefulWidget {
 }
 
 class PictureLocationState extends State<PictureLocation> {
+  List<BinLocationModel>? bins;
+
   @override
   void initState() {
-    generateMarker();
+    getDataFromFirebaseBinLocation().then((fetchedBins) {
+      setState(() {
+        bins = fetchedBins;
+      });
+      generateMarker(bins);
+    });
     super.initState();
   }
 
@@ -132,39 +43,44 @@ class PictureLocationState extends State<PictureLocation> {
   final Map<String, Marker> marker = {};
   List<bool> markerVisibility = [];
 
-  generateMarker() async {
-    for (int i = 0; i < data.length; i++) {
-      BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
-          const ImageConfiguration(), data[i]['assetPath']);
+  generateMarker(List<BinLocationModel>? bins) async {
+    if (bins != null) {
+      for (int i = 0; i < bins.length; i++) {
+        BitmapDescriptor markerIcon = await BitmapDescriptor.fromAssetImage(
+            const ImageConfiguration(), 'asset/images/bin-image-medium.png');
 
-      markerVisibility.add(true);
+        markerVisibility.add(true);
 
-      marker[i.toString()] = Marker(
-          markerId: MarkerId(
-            i.toString(),
-          ),
-          position: data[i]['position'],
-          icon: markerIcon,
-          infoWindow: const InfoWindow(title: "bin"));
-      setState(() {});
+        marker[i.toString()] = Marker(
+            markerId: MarkerId(
+              i.toString(),
+            ),
+            position: LatLng(
+                bins[i].latitude.toDouble(), bins[i].latitude.toDouble()),
+            icon: markerIcon,
+            infoWindow: const InfoWindow(title: "bin"));
+        setState(() {});
+      }
     }
   }
 
-  onCameraMove(CameraPosition position) {
-    // You can set a zoom threshold to control marker visibility
-    const zoomThreshold = 10.0; // Adjust this threshold as needed
+  onCameraMove(CameraPosition position, List<BinLocationModel>? bins) {
+    if (bins != null) {
+      // You can set a zoom threshold to control marker visibility
+      const zoomThreshold = 10.0; // Adjust this threshold as needed
 
-    // Check the current zoom level
-    if (position.zoom < zoomThreshold) {
-      // Remove all markers when zooming out
-      setState(() {
-        markerVisibility = [];
-      });
-    } else {
-      // Show all markers when zooming in
-      setState(() {
-        markerVisibility = List.generate(data.length, (index) => true);
-      });
+      // Check the current zoom level
+      if (position.zoom < zoomThreshold) {
+        // Remove all markers when zooming out
+        setState(() {
+          markerVisibility = [];
+        });
+      } else {
+        // Show all markers when zooming in
+        setState(() {
+          markerVisibility = List.generate(bins.length, (index) => true);
+        });
+      }
     }
   }
 
@@ -226,7 +142,10 @@ class PictureLocationState extends State<PictureLocation> {
           return Marker(
             onTap: () {
               try {
-                userLocation = data[index]['position'];
+                userLocation = isVisible
+                    ? LatLng(bins![index].latitude.toDouble(),
+                        bins![index].longitude.toDouble())
+                    : LatLng(0, 0);
                 print(userLocation!.latitude);
                 getAddress();
                 print("ssssss");
@@ -282,17 +201,21 @@ class PictureLocationState extends State<PictureLocation> {
               }
             },
             markerId: MarkerId(index.toString()),
-            position: data[index]['position'],
+            position: isVisible
+                ? LatLng(bins![index].latitude.toDouble(),
+                    bins![index].longitude.toDouble())
+                : LatLng(0, 0),
             icon: isVisible
                 ? marker[index.toString()]!.icon
                 : BitmapDescriptor.defaultMarker,
             infoWindow: InfoWindow(
-              title: "${data[index]['position']}",
+              title:
+                  "${isVisible ? LatLng(bins![index].latitude.toDouble(), bins![index].longitude.toDouble()) : LatLng(0, 0)}",
               onTap: () {},
             ),
           );
         }).toSet(),
-        onCameraMove: onCameraMove,
+        onCameraMove: (position) => onCameraMove(position, bins),
       ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -330,3 +253,114 @@ Future<Position> getUserCurrentLocation() async {
 
   return await Geolocator.getCurrentPosition();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// List<Map<String, dynamic>> data = [
+//   {
+//     'id': '0',
+//     'position': const LatLng(10.1617, 76.2154),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '1',
+//     'position': const LatLng(10.1615, 76.2162),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '2',
+//     'position': const LatLng(10.1657, 76.2135),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '3',
+//     'position': const LatLng(10.1673, 76.2122),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '4',
+//     'position': const LatLng(10.1711, 76.2102),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '5',
+//     'position': const LatLng(10.1785, 76.2109),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '6',
+//     'position': const LatLng(10.2139, 76.1981),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '7',
+//     'position': const LatLng(10.1505, 76.2182),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '8',
+//     'position': const LatLng(10.1485, 76.2249),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '9',
+//     'position': const LatLng(10.1503, 76.2315),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '10',
+//     'position': const LatLng(10.1412, 76.2038),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '11',
+//     'position': const LatLng(10.1391, 76.1943),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '12',
+//     'position': const LatLng(10.1395, 76.1792),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '13',
+//     'position': const LatLng(10.1768, 76.1653),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '14',
+//     'position': const LatLng(10.1660, 76.2023),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '15',
+//     'position': const LatLng(10.1897, 76.1882),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '16',
+//     'position': const LatLng(10.1747, 76.2325),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '17',
+//     'position': const LatLng(10.1766, 76.2424),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+//   {
+//     'id': '18',
+//     'position': const LatLng(10.9478, 76.0292),
+//     'assetPath': 'asset/images/bin-image-medium.png'
+//   },
+// ];

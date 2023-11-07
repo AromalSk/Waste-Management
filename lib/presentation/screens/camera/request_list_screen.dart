@@ -3,7 +3,7 @@ import 'package:lottie/lottie.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/full_bin_images.dart';
 import 'package:waste_management/domain/repositories/full_bin_repo.dart';
-
+import 'package:waste_management/presentation/screens/camera/imagetaken_screen.dart';
 
 class RequestListScreen extends StatelessWidget {
   const RequestListScreen({super.key});
@@ -15,14 +15,29 @@ class RequestListScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color(0xffE6F9DC),
           centerTitle: true,
+          leading: GestureDetector(
+              onTap: () {
+                // Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                  builder: (context) {
+                    return ImageTakenScreen();
+                  },
+                ), (route) => false);
+                // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                //   builder: (context) {
+                //     return ImageTakenScreen();
+                //   },
+                // ));
+              },
+              child: Icon(Icons.arrow_back)),
           title: Text(
             "Request Queue",
             style: primaryfont(fontSize: 24, color: Colors.black54),
           ),
         ),
         body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
+          height: size.height,
+          width: size.width,
           decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [Color(0xff44ADA8), Color(0xffC3EFB7)],
@@ -95,4 +110,3 @@ class RequestListScreen extends StatelessWidget {
         ));
   }
 }
-

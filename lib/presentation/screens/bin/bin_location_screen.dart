@@ -6,6 +6,21 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/bin_location.dart';
 
+  Future<List<BinLocationModel>> getDataFromFirebaseBinLocation() async {
+    print('hello');
+    List<BinLocationModel> fetchedBins = [];
+    final snapshot =
+        await FirebaseFirestore.instance.collection('bin-location').get();
+    if (snapshot.docs.isNotEmpty) {
+      fetchedBins = snapshot.docs.map((data) {
+        final mapcontent = data.data();
+        return BinLocationModel.fromMap(mapcontent);
+      }).toList();
+    }
+
+    return fetchedBins;
+  }
+
 class BinLocation extends StatefulWidget {
   const BinLocation({super.key});
 
@@ -27,20 +42,6 @@ class BinLocationState extends State<BinLocation> {
     super.initState();
   }
 
-  Future<List<BinLocationModel>> getDataFromFirebaseBinLocation() async {
-    print('hello');
-    List<BinLocationModel> fetchedBins = [];
-    final snapshot =
-        await FirebaseFirestore.instance.collection('bin-location').get();
-    if (snapshot.docs.isNotEmpty) {
-      fetchedBins = snapshot.docs.map((data) {
-        final mapcontent = data.data();
-        return BinLocationModel.fromMap(mapcontent);
-      }).toList();
-    }
-
-    return fetchedBins;
-  }
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
