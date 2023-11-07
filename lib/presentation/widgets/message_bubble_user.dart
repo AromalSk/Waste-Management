@@ -15,7 +15,7 @@ class MessageBubbleUser extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -43,9 +43,12 @@ class MessageBubbleUser extends StatelessWidget {
               ),
             ],
           ),
-          Text(
-            DateFormat.jm().format(date),
-            style: primaryfont(fontSize: 10, color: forthColor),
+          Padding(
+            padding: const EdgeInsets.only(right: 5),
+            child: Text(
+              DateFormat.jm().format(date),
+              style: primaryfont(fontSize: 10, color: forthColor),
+            ),
           )
         ],
       ),

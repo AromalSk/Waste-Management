@@ -3,23 +3,24 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/bin_location.dart';
 
-  Future<List<BinLocationModel>> getDataFromFirebaseBinLocation() async {
-    print('hello');
-    List<BinLocationModel> fetchedBins = [];
-    final snapshot =
-        await FirebaseFirestore.instance.collection('bin-location').get();
-    if (snapshot.docs.isNotEmpty) {
-      fetchedBins = snapshot.docs.map((data) {
-        final mapcontent = data.data();
-        return BinLocationModel.fromMap(mapcontent);
-      }).toList();
-    }
-
-    return fetchedBins;
+Future<List<BinLocationModel>> getDataFromFirebaseBinLocation() async {
+  print('hello');
+  List<BinLocationModel> fetchedBins = [];
+  final snapshot =
+      await FirebaseFirestore.instance.collection('bin-location').get();
+  if (snapshot.docs.isNotEmpty) {
+    fetchedBins = snapshot.docs.map((data) {
+      final mapcontent = data.data();
+      return BinLocationModel.fromMap(mapcontent);
+    }).toList();
   }
+
+  return fetchedBins;
+}
 
 class BinLocation extends StatefulWidget {
   const BinLocation({super.key});
@@ -41,7 +42,6 @@ class BinLocationState extends State<BinLocation> {
     });
     super.initState();
   }
-
 
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
@@ -135,6 +135,10 @@ class BinLocationState extends State<BinLocation> {
           final index = entry.key;
           final isVisible = entry.value;
           return Marker(
+            onTap: () {
+              _showGoogleDialog(context, bins![index].latitude.toDouble(),
+                  bins![index].longitude.toDouble());
+            },
             markerId: MarkerId(index.toString()),
             position: isVisible
                 ? LatLng(bins![index].latitude.toDouble(),
@@ -173,4 +177,46 @@ Future<Position> getUserCurrentLocation() async {
   });
 
   return await Geolocator.getCurrentPosition();
+}
+
+void _showGoogleDialog(
+    BuildContext context, double toLatitude, double toLongitude) {
+  showDialog(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          backgroundColor: primaryColor,
+          title: Text(
+            "Open Google Maps?",
+            style: primaryfont(color: white),
+          ),
+          content: Text("You will be directed to this location in google maps",
+              style: primaryfont(color: white)),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel", style: primaryfont(color: white)),
+            ),
+            TextButton(
+              onPressed: () async {
+                print('hello');
+                try {
+                  if (await canLaunchUrl(Uri.parse(
+                      'https://www.google.com/maps/dir/?api=1&destination=$toLatitude,$toLongitude'))) {
+                    await launchUrl(Uri.parse(
+                        'https://www.google.com/maps/dir/?api=1&destination=$toLatitude,$toLongitude'));
+                  } else {
+                    throw 'Could not launch';
+                  }
+                } catch (e) {
+                  print(e.toString());
+                }
+              },
+              child: Text("OK", style: primaryfont(color: white)),
+            ),
+          ],
+        );
+      });
 }

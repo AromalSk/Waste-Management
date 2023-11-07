@@ -7,10 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/bin_location.dart';
+import 'package:waste_management/infrastucture/authentication/google_signin.dart';
 import 'package:waste_management/presentation/screens/bin/bin_location_screen.dart';
 import 'package:waste_management/presentation/screens/camera/imagetaken_screen.dart';
 import 'package:waste_management/presentation/screens/camera/request_success_screen.dart';
-
 
 class PictureLocation extends StatefulWidget {
   const PictureLocation({super.key});
@@ -183,6 +183,10 @@ class PictureLocationState extends State<PictureLocation> {
                                     builder: (context) {
                                       return ImageTakenScreen(
                                         location: streetAddress,
+                                        latitude:
+                                            userLocation!.latitude.toString(),
+                                        longitude:
+                                            userLocation!.longitude.toString(),
                                       );
                                     },
                                   ));

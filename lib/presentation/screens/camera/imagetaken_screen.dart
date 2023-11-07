@@ -22,9 +22,10 @@ import 'package:waste_management/presentation/widgets/backbutton.dart';
 // ignore: must_be_immutable
 class ImageTakenScreen extends StatelessWidget {
   String? location;
-
+  String? latitude;
+  String? longitude;
   String? gender;
-  ImageTakenScreen({super.key, this.location});
+  ImageTakenScreen({super.key, this.location, this.latitude, this.longitude});
 
   // File? imageFile;
   UploadTask? uploadTask;
@@ -195,7 +196,11 @@ class ImageTakenScreen extends StatelessWidget {
                             await imageSendtoDB(state.mainImage!);
                         print("6");
                         detailsSentToFireStore(
-                            imagePath: imageLink, location: location!);
+                          latitude: latitude!,
+                          longitude: longitude!,
+                          imagePath: imageLink,
+                          location: location!,
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text("image sent successful")));
@@ -253,7 +258,10 @@ class ImageTakenScreen extends StatelessWidget {
   }
 
   void detailsSentToFireStore(
-      {required String imagePath, required String location}) {
+      {required String imagePath,
+      required String location,
+      required String latitude,
+      required String longitude}) {
     FirebaseFirestore.instance
         .collection('full-bin-images')
         .doc(FirebaseAuth.instance.currentUser!.uid)
@@ -270,6 +278,8 @@ class ImageTakenScreen extends StatelessWidget {
         .collection('image-list')
         .doc();
     final bin = FullBinImages(
+        latitude: latitude,
+        longitude: longitude,
         imageListId: imagedetails.id,
         gender: gender!,
         imagePath: imagePath,
@@ -282,6 +292,8 @@ class ImageTakenScreen extends StatelessWidget {
     final binAdmin =
         FirebaseFirestore.instance.collection('full-bin-images-admin').doc();
     binAdmin.set(FullBinImages(
+            latitude: latitude,
+            longitude: longitude,
             imagePath: imagePath,
             userLocation: location,
             status: false,
