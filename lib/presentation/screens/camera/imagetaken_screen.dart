@@ -298,7 +298,7 @@ class ImageTakenScreen extends StatelessWidget {
             userLocation: location,
             status: false,
             dateTime: DateTime.now(),
-            imageListId: imagedetails.id,
+            imageListId: binAdmin.id,
             gender: gender!,
             userId: FirebaseAuth.instance.currentUser!.uid)
         .toMap());

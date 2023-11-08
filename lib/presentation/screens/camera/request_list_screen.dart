@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:lottie/lottie.dart';
 import 'package:waste_management/constants/costants.dart';
 import 'package:waste_management/domain/entities/full_bin_images.dart';
@@ -44,8 +47,12 @@ class RequestListScreen extends StatelessWidget {
                   stops: [0.1, 0.9],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight)),
-          child: FutureBuilder<List<FullBinImages>>(
-            future: getallBin(),
+          child: FutureBuilder(
+            future: FirebaseFirestore.instance
+                .collection('full-bin-images-admin')
+                .where('userId',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+                .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -62,6 +69,9 @@ class RequestListScreen extends StatelessWidget {
                 // var userData = snapshot.data!.data() as Map<String, dynamic>;
                 return ListView.builder(
                   itemBuilder: (context, index) {
+                    List<QueryDocumentSnapshot> data = snapshot.data!.docs;
+                    FullBinImages currentItem = FullBinImages.fromMap(
+                        data[index].data() as Map<String, dynamic>);
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
@@ -79,28 +89,35 @@ class RequestListScreen extends StatelessWidget {
                                   color: Colors.green,
                                 ),
                                 child: Image.network(
-                                  snapshot.data![index].imagePath,
+                                  currentItem.imagePath,
                                   fit: BoxFit.fill,
                                 )),
                             title: Text(
                               textAlign: TextAlign.start,
-                              snapshot.data![index].userLocation,
+                              currentItem.userLocation,
                               style: primaryfont(fontSize: 10),
                             ),
-                            trailing: snapshot.data![index].status == true
+                            trailing: currentItem.status == true
                                 ? const CircleAvatar(
+                                    backgroundColor: Colors.transparent,
+                                    child: Icon(
+                                      Iconsax.cloud5,
+                                      color: Colors.green,
+                                      size: 40,
+                                    ),
+                                  )
+                                : const CircleAvatar(
                                     backgroundColor: Colors.transparent,
                                     child: Icon(
                                       Icons.highlight_remove_rounded,
                                       color: Colors.red,
                                       size: 40,
                                     ),
-                                  )
-                                : Lottie.asset('asset/lottie/pending.json')),
+                                  )),
                       ),
                     );
                   },
-                  itemCount: snapshot.data!.length,
+                  itemCount: snapshot.data!.docs.length,
                 );
               } else {
                 return const Center(child: CircularProgressIndicator());

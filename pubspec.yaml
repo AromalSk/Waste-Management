@@ -43,6 +43,7 @@ dependencies:
   google_maps_flutter: ^2.5.0
   google_sign_in: ^6.1.5
   grouped_list: ^5.1.2
+  iconsax: ^0.0.8
   image_picker: ^1.0.4
   intl: ^0.18.1
   lottie: ^2.6.0
